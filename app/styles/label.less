@@ -1,0 +1,65 @@
+.label {
+	color: @palette-Grey-100;
+	border-radius: @brad;
+	z-index: 2;
+	display: inline-flex;
+	align-items: stretch;
+	justify-content: space-between;
+	text-align: center;
+	cursor: default;
+	position: relative;
+	border-radius: @brad;
+	&-content {
+		display: flex;
+		justify-content: space-between;
+		border-radius: inherit;
+		background-image: linear-gradient(
+			135deg,
+			lighten(@palette-Blue-Grey-500, 5%),
+			darken(@palette-Blue-Grey-500, 5%)
+		);
+	}
+	&-text {
+		padding: 0.75rem;
+		border-right: 1px solid fadeout(@palette-Grey-100, 50%);
+		min-width: 5em;
+	}
+	&-value {
+		min-width: 2.5em;
+		text-align: center;
+		padding: 0.75rem;
+	}
+}
+.labels-bar {
+	padding: @brad*2;
+	.label {
+		margin-right: @brad*2;
+		margin-left: @brad*2;
+		&::before {
+			position: absolute;
+			z-index: -1;
+			content: '';
+			width: 100%;
+			height: 100%;
+			top: 30%;
+			left: .5rem;
+			background-color: rgba(0, 0, 0, .4);
+			filter: blur(10px);
+		}
+	}
+}
+.labels-bar--nospace {
+	.label {
+		border-radius: 0;
+		margin-left: 0;
+		margin-right: 0;
+		&:first-child {
+			border-top-left-radius: @brad;
+			border-bottom-left-radius: @brad;
+		}
+		&:last-child {
+			border-top-right-radius: @brad;
+			border-bottom-right-radius: @brad;
+		}
+	}
+}

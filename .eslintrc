@@ -1,0 +1,118 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+      # "babel/new-cap": 1,
+      # "babel/object-curly-spacing": 1,
+      # "babel/no-invalid-this": 1,
+      # "babel/semi": 1,
+
+      // enable additional rules
+      // "indent": ["error", 4],
+      // "linebreak-style": ["error", "unix"],
+      "no-mixed-spaces-and-tabs": 1,
+      "quotes": [1, "single"],
+      "semi": [1, "always"],
+      "prefer-promise-reject-errors": 0,
+      "comma-dangle": [1, "never"],
+      // override default options for rules from base configurations
+      "no-cond-assign": [1, "always"],
+      "no-unused-vars": 1,
+      // disable rules from base configurations
+      "no-console": "off",
+      'arrow-body-style': ['error', 'as-needed'],
+      'arrow-spacing': [1, { before: true, after: true }],
+      'no-duplicate-imports': 'error',
+      'no-useless-constructor': 'error',
+      'no-useless-rename': ['error', {
+        ignoreDestructuring: false,
+        ignoreImport: false,
+        ignoreExport: false,
+      }],
+      // require let or const instead of var
+      'no-var': 'error',
+      // suggest using arrow functions as callbacks
+      'prefer-arrow-callback': ['error', {
+        allowNamedFunctions: false,
+        allowUnboundThis: true,
+      }],
+      // enforce usage of spacing in template strings
+      // http://eslint.org/docs/rules/template-curly-spacing
+      'template-curly-spacing': 'error',
+
+      // enforce spacing inside array brackets
+      'array-bracket-spacing': ['error', 'never'],
+
+      // enforce spacing inside single-line blocks
+      // http://eslint.org/docs/rules/block-spacing
+      'block-spacing': [1, 'always'],
+
+      // enforce spacing before and after comma
+      'comma-spacing': [1, { before: false, after: true }],
+
+
+      // enforces spacing between keys and values in object literal properties
+      'key-spacing': [1, { beforeColon: false, afterColon: true }],
+
+      // require a space before & after certain keywords
+      'keyword-spacing': [1, {
+        before: true,
+        after: true,
+        overrides: {
+          return: { after: true },
+          throw: { after: true },
+          case: { after: true }
+        }
+      }],
+
+      ////////////////////////////////////  best-practices
+      // treat var statements as if they were block scoped
+      'block-scoped-var': 'error',
+
+
+      // require the use of === and !==
+      // http://eslint.org/docs/rules/eqeqeq
+      eqeqeq: ['error', 'allow-null'],
+
+      // disallow use of eval()
+      'no-eval': 'error',
+
+      // disallow reassignments of native objects or read-only globals
+      // http://eslint.org/docs/rules/no-global-assign
+      // 'no-global-assign': ['error', { exceptions: [] }],
+
+      // disallow creation of functions within loops
+      'no-loop-func': 'error',
+
+      // disallow magic numbers
+      // http://eslint.org/docs/rules/no-magic-numbers
+      'no-magic-numbers': ['off', {
+        ignore: [],
+        ignoreArrayIndexes: true,
+        enforceConst: true,
+        detectObjects: false,
+      }],
+
+    // disallow usage of __proto__ property
+    'no-proto': 'error',
+    // disallow comparisons where both sides are exactly the same
+    'no-self-compare': 'error',
+
+    // restrict what can be thrown as an exception
+    'no-throw-literal': 'error',
+
+    // requires to declare all vars on top of their containing scope
+    'vars-on-top': 'error',
+
+
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  }
+}
