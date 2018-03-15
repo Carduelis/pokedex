@@ -11,7 +11,20 @@ const ticketLifecycle = types.enumeration('TicketLifecycle', [
 	'rejected'
 ]);
 
-export { state, ticketLifecycle };
+const pokemonPlainTypes = {
+	pkdx_id: types.identifier(types.number),
+	name: types.string,
+	attack: types.number,
+	defense: types.number,
+	exp: types.number,
+	happiness: types.number,
+	hp: types.number,
+	speed: types.number,
+	height: types.string,
+	sprites: types.array(types.frozen),
+	weight: types.string
+};
+export { state, ticketLifecycle, pokemonPlainTypes };
 
 // export * from './state';
 //

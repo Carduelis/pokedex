@@ -10,7 +10,8 @@ module.exports = {
 		// this is to forcing reload while index.ejs is changed
 		contentBase: [
 			path.join(__dirname, './app/index.ejs'),
-			path.join(__dirname, './config')
+			path.join(__dirname, './config'),
+			path.resolve('static')
 		],
 		watchContentBase: true
 	},

@@ -1,0 +1,26 @@
+.blueRed() {
+	background-image: radial-gradient(
+			ellipse at top,
+			fadeout(@palette-Yellow-50, 20%),
+			transparent
+		),
+		linear-gradient(25deg, @palette-Red-100, @palette-Indigo-100);
+}
+
+.apple() {
+	background-image: radial-gradient(
+			ellipse at top,
+			fadeout(@palette-Blue-50, 20%),
+			transparent
+		),
+		linear-gradient(25deg, @palette-Red-100, @palette-Blue-100);
+}
+
+.gradientError() {
+	background-image: radial-gradient(
+			ellipse at top,
+			fadeout(@palette-Yellow-50, 20%),
+			transparent
+		),
+		linear-gradient(25deg, @palette-Red-300, @palette-Indigo-300);
+}

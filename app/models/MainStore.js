@@ -1,25 +1,11 @@
 import { types, getEnv } from 'mobx-state-tree';
-import { BookStore } from './BookStore';
-import { TicketStore } from './TicketStore';
-import { StudioStore } from './StudioStore';
-// import { ViewStore } from './ViewStore';
+import { PokemonStore } from './PokemonStore';
 
 export const MainStore = types
 	.model('MainStore', {
-		bookStore: types.optional(BookStore, {
-			books: {}
-		}),
-		studioStore: types.optional(StudioStore, {
-			projects: {}
-		}),
-		ticketStore: types.optional(TicketStore, {
-			tickets: [],
-			groups: []
+		pokemonStore: types.optional(PokemonStore, {
+			pokemons: {}
 		})
-		// cart: types.optional(CartStore, {
-		// 	entries: []
-		// }),
-		// view: types.optional(ViewStore, {})
 	})
 	.views(self => ({
 		get fetch() {
@@ -40,6 +26,6 @@ export const MainStore = types
 	}))
 	.actions(self => ({
 		afterCreate() {
-			self.bookStore.loadBooks();
+			self.pokemonStore.loadPokemons();
 		}
 	}));

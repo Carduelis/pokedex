@@ -22,9 +22,7 @@ const history = {
 	actions: observable.shallowArray(),
 	patches: observable.shallowArray()
 };
-// import './index.ejs';
 
-// import Root from './containers/Root';
 const rootElement = document.getElementById('root');
 ReactDOM.render(
 	<Provider store={store} history={history}>

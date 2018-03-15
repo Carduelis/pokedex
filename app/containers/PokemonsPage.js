@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { observer, inject } from 'mobx-react';
 import Header from '../components/Header';
 import Content from '../components/Content';
@@ -11,14 +12,12 @@ import { Button } from '../components/UI';
 class TestPage extends Component {
 	render() {
 		const { store } = this.props;
-		const { ticketStore, bookStore } = store;
-		console.log(bookStore.shop);
-		console.log(bookStore.sortedAvailableBooks);
-		console.log(ticketStore);
+		const { pokemonStore } = store;
+		console.log(pokemonStore);
 		const btnProps = {
-			label: 'add',
+			label: 'Reload',
 			handleClick: () => {
-				ticketStore.addTicket('kek');
+				// pokemonStore.setState('pen');
 			}
 		};
 		return (
@@ -26,11 +25,15 @@ class TestPage extends Component {
 				<Header />
 				<Content>
 					<Button {...btnProps} />
-					<PokemonsList />
+					<PokemonsList pokemonStore={pokemonStore} />
 				</Content>
 			</Page>
 		);
 	}
 }
+
+TestPage.propTypes = {
+	store: PropTypes.object
+};
 
 export default TestPage;

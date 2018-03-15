@@ -4,13 +4,12 @@
     "ecmaVersion": 7,
     "sourceType": "module",
   },
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
       # "babel/new-cap": 1,
       # "babel/object-curly-spacing": 1,
       # "babel/no-invalid-this": 1,
       # "babel/semi": 1,
-
       // enable additional rules
       // "indent": ["error", 4],
       // "linebreak-style": ["error", "unix"],
