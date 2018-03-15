@@ -33,6 +33,7 @@ class Avatar extends Component {
 					><img src={image} onLoad={this.handleImageLoaded.bind(this)}
           onError={this.handleImageErrored.bind(this)} />
 				</div>
+				</div>
 				{!pokemon.image &&
 					<span className="pokemon-image-status">
 						Image is {pokemon.imageState}
