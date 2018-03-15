@@ -9,7 +9,7 @@ import { Button } from '../components/UI';
 
 @inject('store')
 @observer
-class TestPage extends Component {
+class PokemonsPage extends Component {
 	render() {
 		const { store } = this.props;
 		const { pokemonStore } = store;
@@ -32,8 +32,8 @@ class TestPage extends Component {
 	}
 }
 
-TestPage.propTypes = {
+PokemonsPage.propTypes = {
 	store: PropTypes.object
 };
 
-export default TestPage;
+export default PokemonsPage;
