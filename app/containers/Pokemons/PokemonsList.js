@@ -9,6 +9,9 @@ import { Pokemon } from '../Pokemons';
 class PokemonsList extends Component {
 	render() {
 		const { pokemonStore } = this.props;
+		console.log(pokemonStore.totalPages);
+		console.log(pokemonStore.offset);
+		console.log(pokemonStore.pokemonsPerPage);
 		return (
 			<div className="pokemons-list">
 				{pokemonStore.pokemons

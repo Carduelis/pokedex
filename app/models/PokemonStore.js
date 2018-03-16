@@ -5,9 +5,23 @@ import { Pokemon } from './Pokemon';
 export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
-		pokemons: types.map(Pokemon)
+		pokemons: types.map(Pokemon),
+		page: 1,
+		limit: 10,
+		total: 500
 	})
 	.views(self => ({
+		get totalPages() {
+			return Math.ceil(self.total / self.limit);
+		},
+		get offset() {
+			return (self.page - 1) * self.limit;
+		},
+		get pokemonsPerPage() {
+			const ids = [...Array(self.limit).keys()].map(i => i + self.offset);
+			console.log(ids);
+			return ids.map(id => self.pokemons.get(id));
+		},
 		get id() {
 			return self.pkdx_id;
 		},
@@ -19,6 +33,12 @@ export const PokemonStore = types
 		}
 	}))
 	.actions(self => {
+		function changeLimit(limit) {
+			self.limit = limit;
+		}
+		function changeOffset(offset) {
+			self.offset = offset;
+		}
 		function updatePokemons(json) {
 			self.state = 'pending';
 			// self.pokemons.values().forEach(pokemon => (pokemon.isAvailable = false));
@@ -47,6 +67,8 @@ export const PokemonStore = types
 
 		return {
 			updatePokemons,
+			changeLimit,
+			changeOffset,
 			loadPokemons
 		};
 	});

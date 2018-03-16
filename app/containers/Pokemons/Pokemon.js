@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Avatar } from '../Pokemons';
+import { Avatar, Stat } from '../Pokemons';
 
 @observer
 class Pokemon extends Component {
@@ -9,8 +9,18 @@ class Pokemon extends Component {
 		return (
 			<div className="pokemon">
 				<Avatar pokemon={pokemon} />
-				<div className="pokemon-name">
-					{pokemon.name}
+				<div className="pokemon-info">
+					<div className="pokemon-name">
+						{pokemon.name}
+					</div>
+					<div className="pokemon-stats">
+						<Stat label="Exp" value={pokemon.exp} />
+						<Stat label="Happiness" value={pokemon.happiness} />
+						<Stat label="HP" value={pokemon.hp} />
+						<Stat label="Attack" value={pokemon.attack} />
+						<Stat label="Defense" value={pokemon.defense} />
+						<Stat label="Speed" value={pokemon.speed} />
+					</div>
 				</div>
 			</div>
 		);

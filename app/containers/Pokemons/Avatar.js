@@ -4,20 +4,23 @@ import { observer } from 'mobx-react';
 @observer
 class Avatar extends Component {
 	constructor(props) {
-    super(props);
-    this.state = { imageStatus: "loading" };
-  }
+		super(props);
+		this.state = { imageStatus: 'loading' };
+	}
 
-  handleImageLoaded() {
-    this.setState({ imageStatus: "loaded" });
-  }
+	handleImageLoaded() {
+		this.setState({ imageStatus: 'loaded' });
+	}
 
-  handleImageErrored() {
-    this.setState({ imageStatus: "failed to load" });
-  }
+	handleImageErrored() {
+		this.setState({ imageStatus: 'failed to load' });
+	}
 	render() {
 		const { pokemon } = this.props;
-		const image = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+pokemon.id+'.png';
+		const image =
+			'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+			pokemon.id +
+			'.png';
 		return (
 			<div
 				className={`pokemon-image-wrapper pokemon-image-wrapper--${pokemon.imageState}`}
@@ -30,9 +33,13 @@ class Avatar extends Component {
 					<div
 						className="pokemon-image pokemon-image--blurred"
 						style={{ backgroundImage: `url(${image})` }}
-					><img src={image} onLoad={this.handleImageLoaded.bind(this)}
-          onError={this.handleImageErrored.bind(this)} />
-				</div>
+					>
+						<img
+							src={image}
+							onLoad={this.handleImageLoaded.bind(this)}
+							onError={this.handleImageErrored.bind(this)}
+						/>
+					</div>
 				</div>
 				{!pokemon.image &&
 					<span className="pokemon-image-status">

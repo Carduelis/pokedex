@@ -1,7 +1,37 @@
 .pokemon {
 	padding: 1rem;
 	display: flex;
-	@imageSize: 6rem;
+	align-items: center;
+	justify-content: space-between;
+	@imageSize: 3rem;
+	.pokemon-info {
+		flex-basis: 100%;
+		padding: 1rem;
+	}
+	.pokemon-name {
+		font-size: 1.3em;
+	}
+	.pokemon-stats {
+		// font-size: .9em;
+		display: flex;
+		flex-basis: 100%;
+		flex-shrink: 0;
+		flex-wrap: wrap;
+		flex-grow: 0;
+		.stat {
+			flex-grow: 1;
+			display: flex;
+			padding: 0.25rem 0.5rem 0.25rem 0;
+			justify-content: flex-start;
+			&-label {
+				color: @palette-Blue-Grey-500;
+			}
+			&-value {
+				min-width: 2em;
+				text-align: right;
+			}
+		}
+	}
 	.pokemon-image-wrapper {
 		padding: 1rem;
 		border-radius: 0.5rem;
@@ -30,8 +60,10 @@
 	.pokemon-image {
 		width: @imageSize;
 		height: @imageSize;
+		opacity: 0;
 		background-repeat: no-repeat;
 		background-position: center;
+		background-size: contain;
 		&--original {
 			position: relative;
 			z-index: 2;
