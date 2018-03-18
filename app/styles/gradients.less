@@ -24,3 +24,12 @@
 		),
 		linear-gradient(25deg, @palette-Red-300, @palette-Indigo-300);
 }
+
+.awesomeGradient(@color1, @color2, @accent, @fade: 20%) {
+		background-image: radial-gradient(
+				ellipse at top,
+				fadeout(@accent, @fade),
+				transparent
+			),
+			linear-gradient(25deg, @color1, @color2);
+}
