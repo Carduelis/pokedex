@@ -8,15 +8,12 @@ class PokemonsList extends Component {
 	render() {
 		const { pokemonStore } = this.props;
 
-		const { allPokemons } = pokemonStore;
-		console.log(allPokemons);
+		const { pokemonsPerPage } = pokemonStore;
 		return (
 			<div className="pokemons-list">
-			{allPokemons.length &&
+			{pokemonsPerPage.length &&
 				<div>
-					{pokemonStore.pokemons
-						.values()
-						.map(pokemon => <Pokemon key={pokemon.id} pokemon={pokemon} />)}
+					{pokemonsPerPage.map(pokemon => <Pokemon key={pokemon.id} pokemon={pokemon} />)}
 				</div>
 			}
 			</div>

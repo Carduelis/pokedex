@@ -4,9 +4,11 @@ import { observer, inject } from 'mobx-react';
 import Header from '../components/Header';
 import Content from '../components/Content';
 import Page from '../components/Page';
+import { SearchBox } from './SearchBox';
+import { Pagination } from './Pagination';
 import { PokemonsList, PokemonsTable } from './Pokemons';
+import { TypesList } from './Types';
 import { Button } from '../components/UI';
-
 @inject('store')
 @observer
 class PokemonsPage extends Component {
@@ -26,8 +28,19 @@ class PokemonsPage extends Component {
 				<Header />
 				<Content>
 					<Button {...btnProps} />
-					<PokemonsTable pokemonStore={pokemonStore} />
-					<PokemonsList pokemonStore={pokemonStore} />
+					<div className="pokemon-content">
+						<div className="pokemon-sidebar">
+							<h2>Pokemon types</h2>
+							<TypesList pokemonStore={pokemonStore} />
+						</div>
+						<div className="pokemon-inner-content">
+							<SearchBox />
+							<Pagination pagination={pokemonStore.pagination} />
+							<PokemonsTable pokemonStore={pokemonStore} />
+							<PokemonsList pokemonStore={pokemonStore} />
+							<Pagination pagination={pokemonStore.pagination} />
+						</div>
+					</div>
 				</Content>
 			</Page>
 		);

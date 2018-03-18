@@ -1,0 +1,50 @@
+.pagination {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+	justify-content: center;
+	.dynamic-pagination {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		@media (max-width: 420px) {
+			.page-item {
+				display: none;
+				&--active,
+				&--placeholder,
+				&:nth-last-child(1),
+				&:nth-last-child(2),
+				&:nth-child(1),
+				&:nth-child(2) {
+					display: block;
+				}
+			}
+		}
+	}
+	.btn {
+		width: 100%;
+		padding-left: .25rem;
+		padding-right: .25rem;
+		svg {
+			transform: scale(2);
+		}
+	}
+	.page-item {
+		min-width: 2.5em;
+		padding: 0 0.2em;
+		@media (min-width: 620px) {
+			min-width: 3em;
+		}
+		&--placeholder {
+			text-align: center;
+			opacity: .5;
+		}
+		&:first-child {
+			margin-right: auto;
+		}
+		&:last-child {
+			margin-left: auto;
+		}
+	}
+}

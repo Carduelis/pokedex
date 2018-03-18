@@ -5,6 +5,8 @@ export const MainStore = types
 	.model('MainStore', {
 		pokemonStore: types.optional(PokemonStore, {
 			pokemons: {},
+			types: {},
+			pokemonsDefaultOrder: [],
 			pagination: {
 				currentPage: 1,
 				pages: []
@@ -17,19 +19,18 @@ export const MainStore = types
 		},
 		get alert() {
 			return getEnv(self).alert;
-		},
-		get isLoading() {
-			return self.bookStore.isLoading;
-		},
-		get books() {
-			return self.bookStore.books;
-		},
-		get sortedAvailableBooks() {
-			return self.bookStore.sortedAvailableBooks;
 		}
 	}))
 	.actions(self => ({
 		afterCreate() {
 			self.pokemonStore.loadPokemons();
+			self.pokemonStore.loadTypes();
+			// const CHUNK_SIZE = 100;
+			// const START_OFFSET = 10;
+			// for (let i = 0; i < 8; i++) {
+			// 	const offset = (CHUNK_SIZE*i + START_OFFSET);
+			// 	const limit = CHUNK_SIZE;
+			// 	self.pokemonStore.loadPokemons({ offset, limit });
+			// }
 		}
 	}));

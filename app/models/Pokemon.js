@@ -6,6 +6,7 @@ import { POKEMON_GITHUB_IMAGE_URL } from '../constants';
 export const Pokemon = types
 	.model('Pokemon', {
 		isAvailable: true,
+		index: types.number,
 		types: types.maybe(types.array(types.reference(PokemonType))),
 		state,
 		...pokemonPlainTypes

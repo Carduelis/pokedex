@@ -1,15 +1,21 @@
 import { types, getParent, flow } from 'mobx-state-tree';
-import { pokemonPlainTypes } from './Types';
+import { API_URL } from '../constants';
+import { pokemonPlainTypes, pokemonsMeta, pokemonAvatarMeta, state } from './Types';
 import { Pokemon } from './Pokemon';
+import { PokemonType } from './PokemonType';
 import { Pagination } from './Pagination';
 
 export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
+		state,
+		types: types.map(PokemonType),
+		typesIsFull: false,
+		typesCount: 20,
 		pokemons: types.map(Pokemon),
 		pagination: Pagination,
 		limit: 10,
-		total: 500
+		total: 10
 	})
 	.views(self => ({
 		get totalPages() {
@@ -21,18 +27,30 @@ export const PokemonStore = types
 		get offset() {
 			return (self.page - 1) * self.limit;
 		},
-		get pokemonsPerPage() {
-			const ids = [...Array(self.limit).keys()].map(i => i + self.offset);
-			console.log(ids);
-			return ids.map(id => self.pokemons.get(id));
+		get pokemonsDefaultOrder() {
+			return self.pokemons.values().reduce((acc, pokemon) => {
+				acc[pokemon.index] = pokemon;
+				return acc;
+			}, []);
 		},
-		get titles() {
-			const titles = Object.keys(pokemonPlainTypes).filter(key => key !== 'sprites');
-			titles.unshift('image');
-			return titles;
+		
+		get pokemonsPerPage() {
+			const ids = [...Array(self.limit).keys()].map(i => {
+				const id = i+self.offset;
+				const pokemon = self.pokemonsDefaultOrder[id];
+				// console.log(id, pokemon ? pokemon.types : 'no pokemon');
+				return pokemon ? pokemon.pkdx_id : null;
+			});
+			return ids.filter(item => item).map(id => self.pokemons.get(id));
+		},
+		get meta() {
+			const meta = [...pokemonsMeta];
+			meta.unshift(pokemonAvatarMeta);
+			// console.log(meta);
+			return meta;
 		},
 		get allPokemons() {
-			return self.pokemons.values().map(i => i);
+			return self.pokemons.values().sort(i => i);
 		},
 		get id() {
 			return self.pkdx_id;
@@ -52,24 +70,54 @@ export const PokemonStore = types
 			self.offset = offset;
 		}
 		function updatePokemons(json) {
-			self.state = 'pending';
-			// self.pokemons.values().forEach(pokemon => (pokemon.isAvailable = false));
-			json.forEach(pokemonFullJson => {
+			json.forEach((pokemonFullJson, i) => {
+				try {
+					// self.pokemonsDefaultOrder[i+self.offset] = pokemonFullJson.pkdx_id;
+				} catch (e) {
+					console.error(e);
+				}
 				const pokemonShrinkedJson = Object.keys(
 					pokemonPlainTypes
 				).reduce((acc, key) => {
 					acc[key] = pokemonFullJson[key];
 					return acc;
 				}, {});
+				self.updateTypes(pokemonFullJson);
+				pokemonShrinkedJson.types = pokemonFullJson.types.map(type => type.resource_uri);
+				pokemonShrinkedJson.index = i + self.offset;
 				self.pokemons.put(pokemonShrinkedJson);
-				// self.pokemons.get(pokemonJson.id).isAvailable = true;
 			});
 		}
+		function updateTypes(pokemon) {
+			if (!self.typesIsFull) {
+				// api of types has not been fetched completely
+				pokemon.types.forEach(type => self.types.put(type));
+			}
+		}
+		function updateMeta(json) {
+			self.limit = json.limit;
+			self.total = json.total_count;
+		}
 
-		const loadPokemons = flow(function* loadPokemons() {
+		const loadTypes = flow(function* loadPokemons() {
+			const url = `${API_URL}type/?limit=${self.typesCount}&offset=0`;
 			try {
-				const json = yield self.shop.fetch('/pokemons.json');
+				const json = yield self.shop.fetch(url);
+				json.objects.forEach(({resource_uri, name}) => {
+					self.types.put({ resource_uri, name });
+				});
+				self.typesIsFull = true;
+			} catch (err) {
+				console.error('Failed to load types ', err);
+			}
+		});
+		const loadPokemons = flow(function* loadPokemons() {
+			self.state = 'pending';
+			const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
+			try {
+				const json = yield self.shop.fetch(url);
 				updatePokemons(json.objects);
+				updateMeta(json.meta);
 				self.state = 'done';
 			} catch (err) {
 				self.state = 'error';
@@ -78,9 +126,12 @@ export const PokemonStore = types
 		});
 
 		return {
+			updateMeta,
+			updateTypes,
 			updatePokemons,
 			changeLimit,
 			changeOffset,
+			loadTypes,
 			loadPokemons
 		};
 	});
