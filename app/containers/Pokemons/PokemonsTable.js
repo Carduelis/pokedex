@@ -10,8 +10,8 @@ import LoadableImg from '../../components/LoadableImg';
 class PokemonsTable extends Component {
 	render() {
 		const { pokemonStore } = this.props;
-		const { allPokemons, titles } = pokemonStore;
-
+		const { allPokemons, titles, pagination } = pokemonStore;
+		pagination.show
 		const CellFork = (key, pokemon) => (
 			key === 'image' ? <LoadableImg url={pokemon[key]} /> : <span>{pokemon[key]}</span>
 		);

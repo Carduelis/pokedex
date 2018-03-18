@@ -1,18 +1,22 @@
 import { types, getParent, flow } from 'mobx-state-tree';
 import { pokemonPlainTypes } from './Types';
 import { Pokemon } from './Pokemon';
+import { Pagination } from './Pagination';
 
 export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
 		pokemons: types.map(Pokemon),
-		page: 1,
+		pagination: Pagination,
 		limit: 10,
 		total: 500
 	})
 	.views(self => ({
 		get totalPages() {
 			return Math.ceil(self.total / self.limit);
+		},
+		get page() {
+			return self.pagination.current;
 		},
 		get offset() {
 			return (self.page - 1) * self.limit;
@@ -21,6 +25,14 @@ export const PokemonStore = types
 			const ids = [...Array(self.limit).keys()].map(i => i + self.offset);
 			console.log(ids);
 			return ids.map(id => self.pokemons.get(id));
+		},
+		get titles() {
+			const titles = Object.keys(pokemonPlainTypes).filter(key => key !== 'sprites');
+			titles.unshift('image');
+			return titles;
+		},
+		get allPokemons() {
+			return self.pokemons.values().map(i => i);
 		},
 		get id() {
 			return self.pkdx_id;

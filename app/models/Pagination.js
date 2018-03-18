@@ -1,50 +1,84 @@
 import { types, getParent, flow } from 'mobx-state-tree';
 import { state, pokemonPlainTypes } from './Types';
-import { PokemonType } from './PokemonType';
+import pageCalculation from '../helpers/pageCalculation';
 
-export const Pokemon = types
-	.model('Pokemon', {
-		isAvailable: true,
-		image: types.maybe(types.string),
-		imageState: state,
-		types: types.maybe(types.array(types.reference(PokemonType))),
-		state,
-		...pokemonPlainTypes
+const isInRangeOf = (epsilon, point) => (Math.abs(point) < epsilon);
+
+export const Pagination = types
+	.model('Pagination', {
+		current: 50
 	})
 	.views(self => ({
-		get id() {
-			return self.pkdx_id;
+		get pokemonStore() {
+			return getParent(self);
+		},
+		get first() {
+			return 1;
+		},
+		get last() {
+			return self.pokemonStore.totalPages;
+		},
+
+		get show() {
+			const { first, current, last } = self;
+			const epsilon = 3;
+			pageCalculation({	epsilon, first, current: 1, last });
+			pageCalculation({	epsilon, first, current: 2, last });
+			pageCalculation({	epsilon, first, current: 3, last });
+			pageCalculation({	epsilon, first, current: 4, last });
+			pageCalculation({	epsilon, first, current: 5, last });
+			pageCalculation({	epsilon, first, current: 25, last });
+			pageCalculation({	epsilon, first, current: 46, last });
+			pageCalculation({	epsilon, first, current: 47, last });
+			pageCalculation({	epsilon, first, current: 48, last });
+			pageCalculation({	epsilon, first, current: 49, last });
+			pageCalculation({	epsilon, first, current: 50, last });
+			return pageCalculation({	epsilon, first, current, last });
+		},
+		get currentPage() {
+			return {
+				index: self.current,
+				disabled: false,
+				active: true
+			}
+		},
+		get firstPage() {
+			return {
+				index: 1,
+				disabled: false,
+				active: self.current === 1
+			}
+		},
+		get lastPage() {
+			return {
+				index: self.last,
+				disabled: false,
+				active: self.current === self.last
+			}
 		}
 	}))
 	.actions(self => {
+
+		function nextPage() {
+			self.setPage(self.current + 1);
+		}
+		function prevPage() {
+			self.setPage(self.current - 1);
+		}
+		function setPage(page) {
+			if (page === 0 || page > self.last) {
+				console.warn(`You can not go to page #${page}, cause it does not exist`);
+			} else {
+				self.current = page;
+			}
+		}
 		function afterCreate() {
-			// self.setImageState('pending');
-			// try {
-			// 	const spriteURL = self.sprites[0].resource_uri;
-			// 	fetch(`https://pokeapi.co${spriteURL}`)
-			// 		.then(response => response.json())
-			// 		.then(json => {
-			// 			console.log(json);
-			// 			self.setImageState('done');
-			// 			self.setImage(`https://pokeapi.co${json.image}`);
-			// 		})
-			// 		.catch(err => {
-			// 			self.setImageState('error');
-			// 			console.error(err);
-			// 		});
-			// } catch (e) {
-			// 	self.setImageState('error');
-			// }
-		}
-		function setImageState(state) {
-			self.imageState = state;
-		}
-		function setImage(url) {
-			self.image = url;
+
 		}
 		return {
-			setImageState,
-			setImage,
+			nextPage,
+			prevPage,
+			setPage,
 			afterCreate
 		};
 	});

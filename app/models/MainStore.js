@@ -4,7 +4,11 @@ import { PokemonStore } from './PokemonStore';
 export const MainStore = types
 	.model('MainStore', {
 		pokemonStore: types.optional(PokemonStore, {
-			pokemons: {}
+			pokemons: {},
+			pagination: {
+				currentPage: 1,
+				pages: []
+			}
 		})
 	})
 	.views(self => ({

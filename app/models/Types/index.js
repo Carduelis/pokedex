@@ -17,7 +17,6 @@ const pokemonPlainTypes = {
 	attack: types.number,
 	defense: types.number,
 	exp: types.number,
-	happiness: types.number,
 	hp: types.number,
 	speed: types.number,
 	height: types.string,
