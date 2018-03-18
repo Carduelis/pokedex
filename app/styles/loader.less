@@ -8,6 +8,7 @@
 .preloader-spin {
 	@size: @pad*5;
 	position: absolute;
+	display: block;
 	width: @size;
 	height: @size;
 	margin-left: -@size/2;
@@ -47,24 +48,4 @@
 	right: @pad*@scale2;
 	left: @pad*@scale2;
 	bottom: @pad*@scale2;
-}
-@keyframes PreloaderSpin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-@keyframes Pulse {
-	0% {
-		transform: scale(1);
-	}
-	50% {
-		transform: scale(1.2);
-	}
-	100% {
-		transform: scale(1);
-	}
 }

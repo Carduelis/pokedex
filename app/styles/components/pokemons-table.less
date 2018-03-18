@@ -1,0 +1,40 @@
+.pokemons-table {
+	.cell {
+		padding: 0.25rem;
+		text-align: right;
+		min-width: 3em;
+		&:first-of-type {
+			padding-left: 1rem;
+		}
+		&:last-of-type {
+			padding-right: 1rem;
+		}
+		&-pkdx_id {
+			display: none;
+		}
+		&-image {
+			text-align: right;
+			height: 3rem;
+			width: 4rem;
+			.img {
+				height: 3rem;
+				width: 3rem;
+				margin: auto;
+			}
+		}
+		&-name {
+			text-align: left;
+		}
+	}
+	thead {
+		.cell {
+			&::first-letter {
+				text-transform: uppercase;
+			}
+			&-image {
+
+			}
+
+		}
+	}
+}
