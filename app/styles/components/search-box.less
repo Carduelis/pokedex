@@ -1,0 +1,35 @@
+.search-box {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	.input-box {
+		flex-basis: 85%;
+	}
+	.btn {
+		flex-basis: 15%;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		border-radius: 0;
+	}
+}
+
+.input-box {
+	position: relative;
+	.input {
+		z-index: 2;
+		width: 100%;
+		background-color: transparent;
+		border: none;
+		position: relative;
+		border-bottom: 2px solid @palette-Blue-Grey-100;
+		&:hover, &:focus {
+			border-bottom-color: @palette-Blue-Grey-200;
+		}
+		&:focus {
+
+			background-color: rgba(0,0,0,.01);
+			box-shadow: inset 0 0 1rem -.5rem rgba(0,0,0,0.3);
+		}
+		// border-radius: .3rem;
+	}
+}
