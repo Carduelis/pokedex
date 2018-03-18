@@ -1,0 +1,112 @@
+.types-list {
+	display: flex;
+	flex-wrap: wrap;
+	.type {
+		margin: .25rem;
+	}
+}
+.type {
+	@size: 0.25rem;
+	flex: 1;
+	flex-basis: 21*@size;
+	max-width: 21*@size*1.5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: @size*2;
+	width: 21*@size;
+	height: 9*@size;
+	font-size: .7em;
+	text-transform: uppercase;
+	background-color: @palette-Blue-100;
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+	&-label {
+		align-self: stretch;
+		background-color: fadeout(@palette-Blue-50, 10%);
+		flex-basis: 100%;
+		border-radius: @size*1.75;
+		margin: 1px;
+		color: #000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&:hover {
+		transform: scale(1.1);
+		z-index: 2;
+		box-shadow: 0 0 2rem -0.5rem rgba(0,0,0,.5); //, 0 0 0 1px rgba(0,0,0,.1);
+		.type-label {
+			background-color: transparent;
+			color: inherit;
+		}
+	}
+	&--poison {
+		color: #fff;
+		.awesomeGradient(@palette-Teal-A400, @palette-Green-A400, @palette-Purple-A100, 80%);
+	}
+	&--grass {
+		// color: #fff;
+		.awesomeGradient(@palette-Green-A400, @palette-Light-Green-A200, @palette-Yellow-300, 50%);
+	}
+	&--water {
+		.awesomeGradient(@palette-Cyan-200, @palette-Teal-200, @palette-Cyan-A100, 10%);
+	}
+	&--flying {
+		.awesomeGradient(@palette-Blue-100, @palette-Blue-A100, #fff, 50%);
+	}
+	&--normal {
+		.awesomeGradient(@palette-Red-100, @palette-Blue-100, @palette-Blue-50);
+	}
+	&--electric {
+		.awesomeGradient(@palette-Light-Blue-200, @palette-Blue-Grey-50, @palette-Yellow-500);
+	}
+	&--ice {
+		.awesomeGradient(@palette-Light-Blue-200, @palette-Blue-Grey-100, @palette-Blue-50);
+	}
+	&--steel {
+		.awesomeGradient(#aaa, @palette-Blue-Grey-300, @palette-Blue-50);
+	}
+	&--rock {
+		color: #fff;
+		.awesomeGradient(@palette-Brown-600, @palette-Blue-Grey-600, @palette-Blue-50, 40%);
+	}
+	&--dark {
+		color: #fff;
+		.awesomeGradient(@palette-Purple-900, @palette-Blue-Grey-800, @palette-Indigo-50, 40%);
+	}
+	&--shadow {
+		color: #fff;
+		.awesomeGradient(@palette-Indigo-400, @palette-Blue-Grey-400, @palette-Indigo-50, 40%);
+	}
+	&--psychic {
+		.awesomeGradient(@palette-Indigo-200, @palette-Blue-Grey-200, @palette-Yellow-50, 40%);
+	}
+	&--ghost {
+		.awesomeGradient(@palette-Indigo-200, @palette-Blue-Grey-200, @palette-Indigo-50, 40%);
+	}
+	&--unknown {
+		.awesomeGradient(@palette-Grey-300, @palette-Blue-Grey-200, @palette-Indigo-50, 40%);
+	}
+	&--bug {
+		.awesomeGradient(@palette-Brown-200, @palette-Lime-500, @palette-Orange-300);
+	}
+	&--ground {
+		color: #fff;
+		.awesomeGradient(@palette-Brown-600, @palette-Lime-900, @palette-Amber-300);
+	}
+	&--fire {
+		.awesomeGradient(@palette-Red-500, @palette-Deep-Orange-500, @palette-Yellow-200);
+	}
+	&--dragon {
+		color: #fff;
+		.awesomeGradient(@palette-Red-800, @palette-Deep-Orange-800, @palette-Yellow-200);
+	}
+	&--fighting {
+		.awesomeGradient(@palette-Brown-400, @palette-Deep-Orange-500, @palette-Yellow-200);
+	}
+	&--fairy {
+		.awesomeGradient(@palette-Purple-100, @palette-Deep-Orange-200, @palette-Yellow-200);
+	}
+}
