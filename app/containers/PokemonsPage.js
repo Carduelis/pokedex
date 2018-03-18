@@ -15,6 +15,7 @@ class PokemonsPage extends Component {
 	render() {
 		const { store } = this.props;
 		const { pokemonStore } = store;
+		const { clearFilter, setFilter } = pokemonStore;
 		console.log(pokemonStore);
 		const btnProps = {
 			label: 'Reload',
@@ -22,6 +23,7 @@ class PokemonsPage extends Component {
 				// pokemonStore.setState('pen');
 			}
 		};
+		// <PokemonsList pokemonStore={pokemonStore} />
 
 		return (
 			<Page>
@@ -34,10 +36,9 @@ class PokemonsPage extends Component {
 							<TypesList pokemonStore={pokemonStore} />
 						</div>
 						<div className="pokemon-inner-content">
-							<SearchBox />
+							<SearchBox setFilter={setFilter} clearFilter={clearFilter} />
 							<Pagination pagination={pokemonStore.pagination} />
 							<PokemonsTable pokemonStore={pokemonStore} />
-							<PokemonsList pokemonStore={pokemonStore} />
 							<Pagination pagination={pokemonStore.pagination} />
 						</div>
 					</div>

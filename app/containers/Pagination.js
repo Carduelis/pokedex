@@ -5,6 +5,7 @@ import { Button } from '../components/UI';
 import MdKeyboardArrowRight from 'react-icons/lib/md/keyboard-arrow-right';
 import MdKeyboardArrowLeft from 'react-icons/lib/md/keyboard-arrow-left';
 
+@observer
 class Page extends Component {
 	render() {
 		const { label, active, handleClick, icon } = this.props;

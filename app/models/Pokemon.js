@@ -21,33 +21,8 @@ export const Pokemon = types
 	}))
 	.actions(self => {
 		function afterCreate() {
-			// self.setImageState('pending');
-			// try {
-			// 	const spriteURL = self.sprites[0].resource_uri;
-			// 	fetch(`https://pokeapi.co${spriteURL}`)
-			// 		.then(response => response.json())
-			// 		.then(json => {
-			// 			console.log(json);
-			// 			self.setImageState('done');
-			// 			self.setImage(`https://pokeapi.co${json.image}`);
-			// 		})
-			// 		.catch(err => {
-			// 			self.setImageState('error');
-			// 			console.error(err);
-			// 		});
-			// } catch (e) {
-			// 	self.setImageState('error');
-			// }
-		}
-		function setImageState(state) {
-			self.imageState = state;
-		}
-		function setImage(url) {
-			self.image = url;
 		}
 		return {
-			setImageState,
-			setImage,
 			afterCreate
 		};
 	});

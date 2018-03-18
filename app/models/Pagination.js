@@ -36,7 +36,16 @@ export const Pagination = types
 				console.warn(`You can not go to page #${page}, cause it does not exist`);
 			} else {
 				self.current = page;
-				self.pokemonStore.loadPokemons();
+				if (self.pokemonStore.filter === null) {
+					self.pokemonStore.loadPokemons();
+				} else {
+					console.warn(`
+						=======================================================
+						|  NO LOADING, CAUSE API DOES NOT PROVIDE FILTERING.  |
+						|  PRELOAD AND CACHE ALL POKEMONS VIA CHUNK-LOADING.  |
+						=======================================================
+					`);
+				}
 			}
 		}
 		function afterCreate() {

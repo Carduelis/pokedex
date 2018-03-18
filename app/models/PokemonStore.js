@@ -11,9 +11,11 @@ export const PokemonStore = types
 		state,
 		types: types.map(PokemonType),
 		typesIsFull: false,
-		typesCount: 20,
+		typesTotal: 20,
+		filter: types.frozen,
 		pokemons: types.map(Pokemon),
 		pagination: Pagination,
+		pokemonsMeta: types.frozen,
 		limit: 10,
 		total: 10
 	})
@@ -33,10 +35,41 @@ export const PokemonStore = types
 				return acc;
 			}, []);
 		},
-		
+		getPokemonsByType(type) {
+			console.log(type);
+			const pokemonsByType = self.pokemons.values().filter(pokemon => {
+				const types = pokemon.types.map(type => type.name.toLowerCase());
+				return types.includes(type);
+			});
+			console.log(pokemonsByType);
+			return pokemonsByType;
+		},
+		getPokemonsByFilter() {
+			if (!self.filter) {
+				console.log(self.pokemonsDefaultOrder);
+				setTimeout(() => {
+					// rename to makeTotalDefault
+					if (self.pokemonsMeta) {
+						self.changeTotal(self.pokemonsMeta.total_count);
+					}
+				}, 0);
+
+				return self.pokemonsDefaultOrder.filter(item => item);
+			}
+			const { name, types } = self.filter;
+			if (name) {
+				const filteredPokemons = self.pokemons.values().filter(pokemon => pokemon.name.toLowerCase().match(name.toLowerCase()));
+				setTimeout(() => {
+					self.changeTotal(filteredPokemons.length);
+				}, 0);
+				return filteredPokemons;
+			}
+		},
+		getPokemonsByFilterPerPage() {
+			return self.getPokemonsByFilter().slice(self.offset, self.limit);
+		},
 		get pokemonsPerPage() {
-			const ids = [...Array(self.limit).keys()].map(i => {
-				const id = i+self.offset;
+			const ids = self.frame.map(id => {
 				const pokemon = self.pokemonsDefaultOrder[id];
 				// console.log(id, pokemon ? pokemon.types : 'no pokemon');
 				return pokemon ? pokemon.pkdx_id : null;
@@ -46,16 +79,16 @@ export const PokemonStore = types
 		get meta() {
 			const meta = [...pokemonsMeta];
 			meta.unshift(pokemonAvatarMeta);
-			// console.log(meta);
 			return meta;
 		},
-		get allPokemons() {
-			return self.pokemons.values().sort(i => i);
+		get frame() {
+			// get empty collection for current page
+			return [...Array(self.limit).keys()].map(i => i + self.offset);
 		},
 		get id() {
 			return self.pkdx_id;
 		},
-		get shop() {
+		get mainStore() {
 			return getParent(self);
 		},
 		get sortedAvailablePokemons() {
@@ -63,6 +96,16 @@ export const PokemonStore = types
 		}
 	}))
 	.actions(self => {
+
+		function setFilter({ types, name }) {
+			self.filter = { types, name };
+		}
+		function clearFilter() {
+			self.filter = null;
+		}
+		function changeTotal(total) {
+			self.total = total;
+		}
 		function changeLimit(limit) {
 			self.limit = limit;
 		}
@@ -95,14 +138,18 @@ export const PokemonStore = types
 			}
 		}
 		function updateMeta(json) {
+			self.pokemonsMeta = json;
 			self.limit = json.limit;
 			self.total = json.total_count;
 		}
-
+		const asyncChangeType = flow(function* (filteredPokemons) {
+			console.log(filteredPokemons.length);
+			yield new Promise();
+		});
 		const loadTypes = flow(function* loadPokemons() {
-			const url = `${API_URL}type/?limit=${self.typesCount}&offset=0`;
+			const url = `${API_URL}type/?limit=${self.typesTotal}&offset=0`;
 			try {
-				const json = yield self.shop.fetch(url);
+				const json = yield self.mainStore.fetch(url);
 				json.objects.forEach(({resource_uri, name}) => {
 					self.types.put({ resource_uri, name });
 				});
@@ -115,7 +162,7 @@ export const PokemonStore = types
 			self.state = 'pending';
 			const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
 			try {
-				const json = yield self.shop.fetch(url);
+				const json = yield self.mainStore.fetch(url);
 				updatePokemons(json.objects);
 				updateMeta(json.meta);
 				self.state = 'done';
@@ -130,6 +177,10 @@ export const PokemonStore = types
 			updateTypes,
 			updatePokemons,
 			changeLimit,
+			setFilter,
+			changeTotal,
+			clearFilter,
+			asyncChangeType,
 			changeOffset,
 			loadTypes,
 			loadPokemons
