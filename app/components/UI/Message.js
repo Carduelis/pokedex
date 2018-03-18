@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 
 class Message extends Component {
 	render() {
@@ -10,5 +11,11 @@ class Message extends Component {
 		);
 	}
 }
+
+Message.propTypes = {
+	type: PropTypes.oneOf(['error', 'success', 'warning', 'info', 'default']),
+	text: PropTypes.string.isRequired
+};
+
 
 export { Message };

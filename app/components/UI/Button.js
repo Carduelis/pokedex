@@ -18,6 +18,9 @@ class Button extends Component {
 		if (props.bordered) {
 			className.push('bordered');
 		}
+		if (props.active) {
+			className.push('active');
+		}
 		if (props.loading === true) {
 			className.push('loading');
 			attrs.disabled = true;
@@ -56,7 +59,8 @@ Button.propTypes = {
 	size: PropTypes.oneOf(['lg', 'sm']),
 	bordered: PropTypes.bool,
 	loading: PropTypes.bool,
-	label: PropTypes.string,
+	active: PropTypes.bool,
+	label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	icon: PropTypes.element
 };
 
