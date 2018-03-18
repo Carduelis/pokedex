@@ -17,10 +17,7 @@ class Avatar extends Component {
 	}
 	render() {
 		const { pokemon } = this.props;
-		const image =
-			'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
-			pokemon.id +
-			'.png';
+
 		return (
 			<div
 				className={`pokemon-image-wrapper pokemon-image-wrapper--${pokemon.imageState}`}
@@ -28,14 +25,14 @@ class Avatar extends Component {
 				<div className="pokemon-image-holder">
 					<div
 						className="pokemon-image pokemon-image--original"
-						style={{ backgroundImage: `url(${image})` }}
+						style={{ backgroundImage: `url(${pokemon.image})` }}
 					/>
 					<div
 						className="pokemon-image pokemon-image--blurred"
-						style={{ backgroundImage: `url(${image})` }}
+						style={{ backgroundImage: `url(${pokemon.image})` }}
 					>
 						<img
-							src={image}
+							src={pokemon.image}
 							onLoad={this.handleImageLoaded.bind(this)}
 							onError={this.handleImageErrored.bind(this)}
 						/>

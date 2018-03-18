@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import Header from '../components/Header';
 import Content from '../components/Content';
 import Page from '../components/Page';
-import { PokemonsList } from './Pokemons';
+import { PokemonsList, PokemonsTable } from './Pokemons';
 import { Button } from '../components/UI';
 
 @inject('store')
@@ -20,11 +20,13 @@ class PokemonsPage extends Component {
 				// pokemonStore.setState('pen');
 			}
 		};
+
 		return (
 			<Page>
 				<Header />
 				<Content>
 					<Button {...btnProps} />
+					<PokemonsTable pokemonStore={pokemonStore} />
 					<PokemonsList pokemonStore={pokemonStore} />
 				</Content>
 			</Page>

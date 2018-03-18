@@ -3,20 +3,22 @@ import { PropTypes } from 'prop-types';
 import { observer } from 'mobx-react';
 import { Pokemon } from '../Pokemons';
 
-// const defaultPokemons = [{ id: 1, name: 'Pica' }, { id: 2, name: 'Bulb' }];
-
 @observer
 class PokemonsList extends Component {
 	render() {
 		const { pokemonStore } = this.props;
-		console.log(pokemonStore.totalPages);
-		console.log(pokemonStore.offset);
-		console.log(pokemonStore.pokemonsPerPage);
+
+		const { allPokemons } = pokemonStore;
+		console.log(allPokemons);
 		return (
 			<div className="pokemons-list">
-				{pokemonStore.pokemons
-					.values()
-					.map(pokemon => <Pokemon key={pokemon.id} pokemon={pokemon} />)}
+			{allPokemons.length &&
+				<div>
+					{pokemonStore.pokemons
+						.values()
+						.map(pokemon => <Pokemon key={pokemon.id} pokemon={pokemon} />)}
+				</div>
+			}
 			</div>
 		);
 	}
