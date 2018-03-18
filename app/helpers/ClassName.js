@@ -5,7 +5,7 @@ export default class {
 		this.result = this.baseClass;
 	}
 	spacedDashedConcat(text) {
-		return `${this.baseClass}-${text}`;
+		return ` ${this.baseClass}-${text}`;
 	}
 	checkForString(string, name) {
 		if (typeof string !== 'string') {
