@@ -1,13 +1,30 @@
+@bp: 420px;
 .pokemons-table {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	min-height: 10rem;
+	position: relative;
+	@media (max-width: @bp) {
+		font-size: .9em;
+	}
 	.cell {
 		padding: 0.25rem;
 		text-align: right;
 		min-width: 3em;
-		&:first-of-type {
-			padding-left: 1rem;
+		width: 4em;
+		@media (max-width: 420px) {
+			min-width: 2em;
 		}
-		&:last-of-type {
-			padding-right: 1rem;
+		@media (min-width: @bp) {
+			&:first-of-type {
+					padding-left: 1rem;
+			}
+			&:last-of-type {
+					padding-right: 1rem;
+			}
+			&-name ~ th.cell {
+
+			}
 		}
 		&-pkdx_id {
 			display: none;
@@ -28,13 +45,69 @@
 	}
 	thead {
 		.cell {
-			&::first-letter {
+			vertical-align: bottom;
+			line-height: 1em;
+			padding-top: 0.5em;
+			padding-bottom: 0.5em;
+			&-name .cell-inner {
+				align-items: flex-start;
+			}
+			&-inner {
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: flex-end;
+				position: relative;
+			}
+			&-title {
+				color: #000;
+				@media (max-width: 1024px) {
+					display: none;
+				}
+			}
+			&-short_title {
+				display: none;
+				color: #000;
+				@media (max-width: 1024px) {
+					display: block;
+				}
+				@media (max-width: 420px) {
+					font-size: .7em;
+					opacity: .6;
+					font-weight: normal;
+				}
+			}
+			&-icon {
+				margin-left: 0.25rem;
+				margin-top: 0.25rem;
+				order: 2;
+				opacity: .5;
+				@media (max-width: 420px) {
+					font-size: 1.4em;
+				}
+			}
+			&::first-letter, span::first-letter {
 				text-transform: uppercase;
 			}
 			&-image {
-
+				opacity: 0;
 			}
-
+			&-attack {
+				color: @palette-Red-800;
+			}
+			&-defense {
+				color: @palette-Blue-800;
+			}
+			&-exp {
+				color: @palette-Orange-800;
+			}
+			&-hp {
+				color: @palette-Red-A700;
+			}
+			&-speed {
+				color: @palette-Blue-800;
+			}
 		}
 	}
 }

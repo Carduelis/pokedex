@@ -40,6 +40,8 @@ input {
 	min-height: 100vh;
 	flex-wrap: wrap;
 	align-items: stretch;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 .preloader-page {
 	min-height: 100vh;
@@ -127,21 +129,29 @@ input {
 		inset 0 0 2rem -1rem rgba(255, 255, 255, 0.2);
 	border-radius: 0.25rem;
 	margin: 2rem auto;
-	width: 80%;
+	// width: 90%;
 	max-width: 1600px;
+	@media (max-width: 768px) {
+		width: 100%;
+	}
 }
 
 .table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	width: 100%;
-	td {
 
+	th {
+		font-weight: normal;
+		color: @palette-Blue-Grey-600;
 	}
 	tr {
 		&:nth-of-type(2n+1) {
 			background-color: rgba(0,0,0,.02);
 		}
+	}
+	thead.group tr {
+		background-color: rgba(0,0,0,.06);
 	}
 }
 
@@ -167,8 +177,13 @@ input {
 }
 
 
+
+@import './components/pokemons-page-layout.less';
+@import './components/pagination.less';
 @import './components/pokemon.less';
+@import './components/search-box.less';
 @import './components/pokemons-table.less';
+@import './components/pokemons-types.less';
 @import 'mixins.less';
 @import 'palette.less';
 @import 'welcome.less';
