@@ -15,8 +15,9 @@ export default function({ current, first, last, epsilon }) {
 			pages.push(getPage( -i - 1));
 		}
 	}
-
-	pages.push(last);
+	if (first !== last) {
+		pages.push(last);
+	}
 	console.log(current, pages);
 	return pages;
 		// for (let i = 0; i <= epsilon*2; i++) {
