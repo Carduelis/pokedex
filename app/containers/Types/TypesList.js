@@ -12,7 +12,7 @@ class TypesList extends Component {
 	render() {
 		const { pokemonStore } = this.props;
 		const { filter, setFilter } = pokemonStore;
-		const types = filter ? filter.types : [];
+		const types = filter.types;
 		const handleClick = name => {
 			console.log(name);
 			console.log(types);

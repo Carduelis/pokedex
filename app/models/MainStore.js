@@ -6,7 +6,10 @@ export const MainStore = types
 		pokemonStore: types.optional(PokemonStore, {
 			pokemons: {},
 			types: {},
-			filter: null,
+			filter: {
+				types: [],
+				name: ''
+			},
 			pokemonsMeta: {
 				limit: 10,
 				total_count: 10

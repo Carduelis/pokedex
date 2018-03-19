@@ -34,18 +34,13 @@ export const PokemonStore = types
 		},
 		get limit() {
 			const { limit } = self.pokemonsMeta;
-			if (self.filter) {
-				return self.userLimit ? self.userLimit : limit;
-			} else {
-				return limit;
-			}
-			// return self.filter && self.userLimit ? self.userLimit : limit;
+			return self.userLimit ? self.userLimit : limit;
 		},
 		get total() {
-			if (self.filter) {
-				return self.getPokemonsByFilter().length;
-			} else {
+			if (self.isDefaultFilter) {
 				return self.pokemonsMeta.total_count;
+			} else {
+				return self.getPokemonsByFilter().length;
 			}
 		},
 		get page() {
@@ -60,9 +55,14 @@ export const PokemonStore = types
 				return acc;
 			}, []);
 		},
+		get isDefaultFilter() {
+			const { name, types } = self.filter;
+			return types.length === 0 && (name === '' || typeof name !== 'string');
+		},
 		getPokemonsByFilter() {
-			if (!self.filter) {
-				return self.pokemonsDefaultOrder.filter(item => item);
+			console.log(self.isDefaultFilter);
+			if (self.isDefaultFilter) {
+				return self.pokemonsDefaultOrder;
 			}
 			const { name, types } = self.filter;
 			if (name) {
@@ -87,14 +87,24 @@ export const PokemonStore = types
 	.actions(self => {
 		function setFilter(filter) {
 			console.log(JSON.stringify(self.filter));
-			self.filter = self.filter ? { ...self.filter, ...filter } : { ...filter };
+			self.filter = !self.isDefaultFilter
+				? { ...self.filter, ...filter }
+				: { ...filter };
 			console.log(JSON.stringify(self.filter));
-			if (self.filter.types.length === 0) {
-				self.clearFilter();
-			}
+			// need to clear default page
+			self.pagination.setPage(1);
+		}
+		function setUserLimit(limit) {
+			self.userLimit = limit;
+			// need to clear default page
+			self.pagination.setPage(1);
+			console.log(self.limit);
 		}
 		function clearFilter() {
-			self.filter = null;
+			self.filter = {
+				types: [],
+				name: ''
+			};
 		}
 		function updatePokemons(json) {
 			json.forEach((pokemonFullJson, i) => {
@@ -110,6 +120,11 @@ export const PokemonStore = types
 						index: apiIndex,
 						types: pokemonFullJson.types.map(type => type.resource_uri)
 					}
+				);
+				console.log(
+					apiIndex,
+					pokemonShrinkedJson.pkdx_id,
+					pokemonShrinkedJson.name
 				);
 				self.pokemons.put(pokemonShrinkedJson);
 			});
@@ -190,6 +205,7 @@ export const PokemonStore = types
 			updatePokemonTypes,
 			updatePokemons,
 			setFilter,
+			setUserLimit,
 			clearFilter,
 			asyncChangeType,
 			loadTypes,

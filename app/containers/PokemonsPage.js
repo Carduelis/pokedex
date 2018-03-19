@@ -15,7 +15,7 @@ class PokemonsPage extends Component {
 	render() {
 		const { store } = this.props;
 		const { pokemonStore } = store;
-		const { clearFilter, setFilter } = pokemonStore;
+		const { clearFilter, setFilter, setUserLimit, filter } = pokemonStore;
 		console.log(pokemonStore);
 		const btnProps = {
 			label: 'Reload',
@@ -24,7 +24,8 @@ class PokemonsPage extends Component {
 			}
 		};
 		// <PokemonsList pokemonStore={pokemonStore} />
-
+		const limits = [10, 20, 50, 100];
+		const searchWord = filter ? (filter.name ? filter.name : null) : null;
 		return (
 			<Page>
 				<Header />
@@ -32,7 +33,24 @@ class PokemonsPage extends Component {
 					<Button {...btnProps} />
 					<div className="pokemon-content">
 						<div className="pokemon-sidebar">
-							<h2>Pokemon types</h2>
+							<h2>Options</h2>
+							<div className="pokemon-limits">
+								{limits.map(limit =>
+									<Button
+										key={limit}
+										label={limit}
+										active={pokemonStore.limit === limit}
+										handleClick={() => setUserLimit(limit)}
+									/>
+								)}
+							</div>
+							<h2>
+								Filter: <Button label="Clear" handleClick={clearFilter} />
+							</h2>
+							{searchWord &&
+								<p>
+									Search by name: &laquo;{searchWord}&raquo;
+								</p>}
 							<TypesList pokemonStore={pokemonStore} />
 						</div>
 						<div className="pokemon-inner-content">

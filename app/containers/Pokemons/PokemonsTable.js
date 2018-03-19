@@ -47,8 +47,11 @@ class PokemonsTable extends Component {
 		}));
 
 		return (
-			<div className="pokemons-table" style={{ minHeight: `${limit * 3}rem` }}>
+			<div className="pokemons-table" style={{ minHeight: `${10 * 3}rem` }}>
 				{state === 'done' && <Table data={{ body, head }} />}
+				{state === 'done' &&
+					body.length === 0 &&
+					<Message type="info" text="There is no pokemons :(" />}
 				{state === 'pending' && <Loader />}
 				{state === 'error' && <Message type="error" text="Error to load" />}
 			</div>

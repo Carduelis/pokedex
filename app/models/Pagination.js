@@ -39,10 +39,10 @@ export const Pagination = types
 				);
 			} else {
 				self.current = page;
-				if (self.pokemonStore.filter === null) {
+				if (self.pokemonStore.isDefaultFilter) {
 					self.pokemonStore.loadPokemons();
 				} else {
-					console.warn(`
+					console.log(`
 						=======================================================
 						|  NO LOADING, CAUSE API DOES NOT PROVIDE FILTERING.  |
 						|  PRELOAD AND CACHE ALL POKEMONS VIA CHUNK-LOADING.  |
