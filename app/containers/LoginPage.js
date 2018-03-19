@@ -30,33 +30,34 @@ class LoginPage extends Component {
 		// console.log(user.toJSON());
 		return (
 			<div className="login-page">
-				<div className="logo-wrapper">
-					<div className="logo">
-						<div className="logo-letter">DP</div>
-					</div>
-					<div className="logo-text">Dating picker!</div>
-				</div>
-				<div className="login-form">
-					<div className="input-wrapper">
-						<input
-							ref={input => {
-								this.textInput = input;
-							}}
-							className="input"
-							type="text"
-							defaultValue={this}
-							placeholder="Your name"
-						/>
-						<span className="help-text">
-							{store.bookStore.isLoading.toString()}
-						</span>
-					</div>
-					<Button {...btnProps}>
-						<span className="arrow">
-							<MdArrowForward />
-						</span>
-					</Button>
-				</div>
+				<h2>Disclaimer</h2>
+				<h3>Why Mobx instead of Redux?</h3>
+				<p>
+					There is no need to write a lot of boilerplate code for
+					actions/reducers/etc. unlike redux.
+				</p>
+				<p>Mobx ideally fits for a small self-maintained apps like this.</p>
+				<p>
+					I am looking forward to try and implement new libraries and
+					frameworks.
+				</p>
+				<h3>Why not "eslint standard config"?</h3>
+				<p>
+					I am used to write code in a familiar environment so I choosed custom
+					eslint-config that I maintain by my own.
+					<br />
+					And, of course, for me there is no problem swaping into "eslint
+					standard config".
+				</p>
+				<h2>What should I draw your attention to?</h2>
+				<p>Awesome animations and way of visualisation of image loading</p>
+				<p>Custom self-developed css-gradients</p>
+				<p>Caching and more</p>
+				<Button {...btnProps}>
+					<span className="arrow">
+						<MdArrowForward />
+					</span>
+				</Button>
 			</div>
 		);
 	}
