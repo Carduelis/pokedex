@@ -6,6 +6,11 @@ export const MainStore = types
 		pokemonStore: types.optional(PokemonStore, {
 			pokemons: {},
 			types: {},
+			filter: null,
+			pokemonsMeta: {
+				limit: 10,
+				total_count: 10
+			},
 			pokemonsDefaultOrder: [],
 			pagination: {
 				currentPage: 1,

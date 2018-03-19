@@ -12,29 +12,42 @@ import LoadableImg from '../../components/LoadableImg';
 class PokemonsTable extends Component {
 	render() {
 		const { pokemonStore } = this.props;
-		const { getPokemonsByFilterPerPage, state, meta } = pokemonStore;
+		const { getPokemonsByFilterPerPage, state, meta, limit } = pokemonStore;
 		console.log(state);
-		const CellFork = (key, pokemon) => (
-			key === 'image' ? <LoadableImg url={pokemon[key]} /> : <span>{pokemon[key]}</span>
-		);
+		const CellFork = (key, pokemon) =>
+			key === 'image'
+				? <LoadableImg url={pokemon[key]} />
+				: <span>
+						{pokemon[key]}
+					</span>;
 		const HeadCell = item => {
 			const Icon = item.icon;
 			return (
 				<div className="cell-inner">
-					{Icon && <span className="cell-icon"><Icon /></span>}
-					<span className="cell-title">{item.title}</span>
-					<span className="cell-short_title">{item.short_title}</span>
+					{Icon &&
+						<span className="cell-icon">
+							<Icon />
+						</span>}
+					<span className="cell-title">
+						{item.title}
+					</span>
+					<span className="cell-short_title">
+						{item.short_title}
+					</span>
 				</div>
 			);
 		};
 		const head = meta.map(item => ({ id: item.api, data: HeadCell(item) }));
 		const body = getPokemonsByFilterPerPage().map(pokemon => ({
 			id: pokemon.id,
-			data: meta.map((item, id) => ({ data: CellFork(item.api, pokemon), id: meta[id].api }))
+			data: meta.map((item, id) => ({
+				data: CellFork(item.api, pokemon),
+				id: meta[id].api
+			}))
 		}));
 
 		return (
-			<div className="pokemons-table">
+			<div className="pokemons-table" style={{ minHeight: `${limit * 3}rem` }}>
 				{state === 'done' && <Table data={{ body, head }} />}
 				{state === 'pending' && <Loader />}
 				{state === 'error' && <Message type="error" text="Error to load" />}

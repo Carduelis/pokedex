@@ -5,15 +5,42 @@ import { observer } from 'mobx-react';
 
 @observer
 class TypesList extends Component {
+	constructor(props) {
+		super(props);
+		this.state = props.pokemonStore.filter;
+	}
 	render() {
 		const { pokemonStore } = this.props;
-		const handleClick = pokemonStore.getPokemonsByType;
+		const { filter, setFilter } = pokemonStore;
+		const types = filter ? filter.types : [];
+		const handleClick = name => {
+			console.log(name);
+			console.log(types);
+			const IS_TYPE_EXIST = types.includes(name);
+			if (IS_TYPE_EXIST) {
+				setFilter({ types: types.filter(type => type !== name) });
+			} else {
+				setFilter({ types: [...types, name] });
+			}
+			// const typesToSet = IS_TYPE_EXIST
+			// 	? types.filter(type => type !== name)
+			// 	: types.push(name);
+			// console.log(typesToSet);
+			// setFilter({ types: typesToSet });
+		};
 		return (
 			<div className={'types-list'}>
-				{pokemonStore.types.values().map(type => (
-					<Type pokemonStore={pokemonStore} key={type.id} name={type.name} handleClick={handleClick}/>
-					)
-				)}
+				{pokemonStore.types
+					.values()
+					.map(type =>
+						<Type
+							pokemonStore={pokemonStore}
+							key={type.id}
+							name={type.name}
+							active={types.includes(type.name.toLowerCase())}
+							handleClick={handleClick}
+						/>
+					)}
 			</div>
 		);
 	}
@@ -22,6 +49,5 @@ class TypesList extends Component {
 TypesList.propTypes = {
 	pokemonStore: PropTypes.object
 };
-
 
 export { TypesList };
