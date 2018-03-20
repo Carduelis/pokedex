@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import LoginPage from './LoginPage';
+import WelcomePage from './WelcomePage';
 import PokemonsPage from './PokemonsPage';
 import NotFoundPage from './NotFoundPage';
 
@@ -11,7 +11,7 @@ class App extends Component {
 		return (
 			<Router>
 				<Switch>
-					<Route exact path="/" component={LoginPage} />
+					<Route exact path="/" component={WelcomePage} />
 					<Route path="/pokemons" component={PokemonsPage} />
 					<Route component={NotFoundPage} />
 				</Switch>

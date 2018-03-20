@@ -49,20 +49,22 @@ export const PokemonStore = types
 		get offset() {
 			return (self.page - 1) * self.limit;
 		},
-		get pokemonsDefaultOrder() {
-			return self.pokemons.values().reduce((acc, pokemon) => {
-				acc[pokemon.index] = pokemon;
-				return acc;
-			}, []);
-		},
 		get isDefaultFilter() {
 			const { name, types } = self.filter;
 			return types.length === 0 && (name === '' || typeof name !== 'string');
 		},
+		get meta() {
+			const meta = [...pokemonsMeta];
+			meta.unshift(pokemonAvatarMeta);
+			return meta;
+		},
+		get sortedAvailablePokemons() {
+			return sortPokemons(self.pokemons.values());
+		},
 		getPokemonsByFilter() {
 			console.log(self.isDefaultFilter);
 			if (self.isDefaultFilter) {
-				return self.pokemonsDefaultOrder;
+				return defaultOrder(self.pokemons.values());
 			}
 			const { name, types } = self.filter;
 			if (name) {
@@ -74,14 +76,6 @@ export const PokemonStore = types
 		},
 		getPokemonsByFilterPerPage() {
 			return self.getPokemonsByFilter().splice(self.offset, self.limit);
-		},
-		get meta() {
-			const meta = [...pokemonsMeta];
-			meta.unshift(pokemonAvatarMeta);
-			return meta;
-		},
-		get sortedAvailablePokemons() {
-			return sortPokemons(self.pokemons.values());
 		}
 	}))
 	.actions(self => {
@@ -106,9 +100,11 @@ export const PokemonStore = types
 				name: ''
 			};
 		}
-		function updatePokemons(json) {
+		function updatePokemons(json, offset) {
+			// offset should be the same when fetching started
 			json.forEach((pokemonFullJson, i) => {
-				const apiIndex = i + self.offset;
+				const apiIndex = i + offset;
+				console.log(offset);
 				self.updatePokemonTypes(pokemonFullJson);
 				setItem(`pokemon${apiIndex}`, pokemonFullJson);
 				const pokemonShrinkedJson = Object.keys(pokemonPlainTypes).reduce(
@@ -172,13 +168,15 @@ export const PokemonStore = types
 					queryIsCached = false;
 				}
 				if (queryIsCached) {
-					updatePokemons(cachedPokemons);
+					updatePokemons(cachedPokemons, startIndex);
 					updateMeta(cachedMeta);
 				} else {
 					if (!self.hardCache) {
-						const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
+						const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${
+							self.offset
+						}`;
 						const json = yield self.mainStore.fetch(url);
-						updatePokemons(json.objects);
+						updatePokemons(json.objects, startIndex);
 						updateMeta(json.meta);
 					}
 				}
@@ -212,6 +210,14 @@ export const PokemonStore = types
 			loadPokemons
 		};
 	});
+
+function defaultOrder(pokemons) {
+	return pokemons.reduce((acc, pokemon) => {
+		// console.log('-', pokemon.index, pokemon.pkdx_id, pokemon.name);
+		acc[pokemon.index] = pokemon;
+		return acc;
+	}, []);
+}
 
 function filterByName(pokemons, name) {
 	// TODO:
