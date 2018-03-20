@@ -13,6 +13,7 @@ class SearchBox extends Component {
 	}
 	applyFilter(value) {
 		const { setFilter } = this.props;
+		console.log(`apply to "${value}". String length is ${value.length}`);
 		setFilter({ name: value });
 	}
 	clearInput() {
