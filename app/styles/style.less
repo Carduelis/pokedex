@@ -6,21 +6,10 @@
 .pokemon-sidebar h2 {
 	// opacity: 0;
 }
-.type {
-	// background: #eee !important;
-}
-// .cell,
-// .type-label {
-// 	opacity: 0;
-// }
-// .cell-pkdx_id {
-// 	opacity: 1;
-// 	display: table-cell !important;
-// }
 @brad: 0.25rem;
 @pad: 1rem;
 html {
-	@media (max-width: 360px) {
+	@media (max-width: 420px) {
 		font-size: 14px;
 	}
 }
@@ -137,9 +126,8 @@ input {
 }
 
 .content {
-	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2),
-		inset 0 0 2rem -1rem rgba(255, 255, 255, 0.2);
+	// box-shadow: 0 0 5px rgba(0, 0, 0, 0.2),
+	// 	inset 0 0 2rem -1rem rgba(255, 255, 255, 0.2);
 	border-radius: 0.25rem;
 	margin: 2rem auto;
 	// width: 90%;
@@ -168,30 +156,10 @@ input {
 	}
 }
 
-@keyframes PreloaderSpin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-@keyframes Pulse {
-	0% {
-		transform: scale(1);
-	}
-	50% {
-		transform: scale(1.2);
-	}
-	100% {
-		transform: scale(1);
-	}
-}
-
 @import 'mixins.less';
 @import 'palette.less';
 @import 'welcome.less';
+@import 'animations.less';
 
 @import 'color.less';
 @import 'gradients.less';
@@ -210,7 +178,9 @@ input {
 
 @import './UI/message.less';
 @import './components/welcome.less';
+@import './components/chunk-loader.less';
 @import './components/pokemons-page-layout.less';
+@import './components/pokemons-page-filter.less';
 @import './components/pagination.less';
 @import './components/pokemon.less';
 @import './components/search-box.less';
