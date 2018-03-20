@@ -1,6 +1,7 @@
 import { types, getParent, flow } from 'mobx-state-tree';
-import { getItem, setItem } from '../helpers/localStorage';
-import { API_URL } from '../constants';
+import { setItem } from '../helpers/localStorage';
+import cached from './cached';
+import { API_URL, HARD_CACHE_IS_ON } from '../constants';
 import {
 	pokemonPlainTypes,
 	pokemonsMeta,
@@ -10,6 +11,7 @@ import {
 import { Pokemon } from './Pokemon';
 import { PokemonType } from './PokemonType';
 import { FilterStore } from './FilterStore';
+import { LoadingStore } from './LoadingStore';
 import { Pagination } from './Pagination';
 
 console.log(FilterStore, Pagination);
@@ -17,10 +19,11 @@ export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
 		state,
-		hardCache: false,
+		loading: LoadingStore,
 		types: types.map(PokemonType),
 		typesIsFull: false,
-		typesTotal: 20,
+		typesState: state,
+		typesTotal: types.number,
 		filter: FilterStore,
 		userLimit: types.maybe(types.number),
 		pokemons: types.map(Pokemon),
@@ -28,11 +31,14 @@ export const PokemonStore = types
 		pokemonsMeta: types.frozen
 	})
 	.views(self => ({
-		get id() {
-			return self.pkdx_id;
-		},
 		get mainStore() {
 			return getParent(self);
+		},
+		get typeUrl() {
+			return `${API_URL}type/?limit=${self.typesTotal}&offset=0`;
+		},
+		get url() {
+			return `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
 		},
 		get limit() {
 			const { limit } = self.pokemonsMeta;
@@ -64,7 +70,6 @@ export const PokemonStore = types
 			// offset should be the same when fetching started
 			json.forEach((pokemonFullJson, i) => {
 				const apiIndex = i + offset;
-				console.log(offset);
 				self.updatePokemonTypes(pokemonFullJson);
 				setItem(`pokemon${apiIndex}`, pokemonFullJson);
 				const pokemonShrinkedJson = Object.keys(pokemonPlainTypes).reduce(
@@ -101,42 +106,21 @@ export const PokemonStore = types
 			});
 			self.typesIsFull = true;
 		}
-		const asyncChangeType = flow(function*(filteredPokemons) {
-			console.log(filteredPokemons.length);
-			yield new Promise();
-		});
+		function update(json, offset) {
+			self.updatePokemons(json.objects, offset);
+			self.updateMeta(json.meta);
+		}
 		const loadPokemons = flow(function*() {
 			self.state = 'pending';
 			const startIndex = self.offset;
 			const endIndex = self.offset + self.limit;
 			try {
-				let queryIsCached = true;
-				const cachedPokemons = [];
-				const cachedMeta = getItem('meta', { async: false });
-				if (cachedMeta) {
-					for (let index = startIndex; index < endIndex; index++) {
-						const cachedPokemon = getItem(`pokemon${index}`, { async: false });
-						if (cachedPokemon) {
-							cachedPokemons.push(cachedPokemon);
-						} else {
-							queryIsCached = false;
-							// avoid unnessary accessing localStorage
-							break;
-						}
-					}
+				const cachedJson = cached(startIndex, endIndex);
+				if (cachedJson) {
+					update(cachedJson, startIndex);
 				} else {
-					queryIsCached = false;
-				}
-				if (queryIsCached) {
-					updatePokemons(cachedPokemons, startIndex);
-					updateMeta(cachedMeta);
-				} else {
-					if (!self.hardCache) {
-						const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
-						const json = yield self.mainStore.fetch(url);
-						updatePokemons(json.objects, json.meta.offset);
-						updateMeta(json.meta);
-					}
+					const json = yield self.mainStore.fetch(self.url);
+					update(json, json.meta.offset);
 				}
 
 				self.state = 'done';
@@ -146,29 +130,26 @@ export const PokemonStore = types
 			}
 		});
 		const loadTypes = flow(function*() {
-			const url = `${API_URL}type/?limit=${self.typesTotal}&offset=0`;
+			self.typesState = 'pending';
 			try {
-				const json = yield self.mainStore.fetch(url);
+				const json = yield self.mainStore.fetch(self.typeUrl);
+				console.log(json);
 				updateTypes(json);
+				self.typesState = 'done';
 			} catch (err) {
+				self.typesState = 'error';
 				console.error('Failed to load types ', err);
 			}
 		});
 
 		return {
 			updateTypes,
+			update,
 			updateMeta,
 			updatePokemonTypes,
 			updatePokemons,
 			setUserLimit,
-			asyncChangeType,
 			loadTypes,
 			loadPokemons
 		};
 	});
-
-function sortPokemons(pokemons) {
-	return pokemons.sort(
-		(a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
-	);
-}

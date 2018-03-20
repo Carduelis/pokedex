@@ -8,6 +8,7 @@ import { SearchBox } from './SearchBox';
 import { Pagination } from './Pagination';
 import { PokemonsList, PokemonsTable } from './Pokemons';
 import { TypesList } from './Types';
+import { LoaderProgress } from './LoaderProgress';
 import { Button } from '../components/UI';
 @inject('store')
 @observer
@@ -15,25 +16,20 @@ class PokemonsPage extends Component {
 	render() {
 		const { store } = this.props;
 		const { pokemonStore } = store;
-		const { clearFilter, setFilter, setUserLimit, filter } = pokemonStore;
+		const { setUserLimit, filter, typesState } = pokemonStore;
+		const { clearFilter, setFilter, isFilteredByName } = filter;
 		console.log(pokemonStore);
-		const btnProps = {
-			label: 'Reload',
-			handleClick: () => {
-				// pokemonStore.setState('pen');
-			}
-		};
-		// <PokemonsList pokemonStore={pokemonStore} />
 		const limits = [10, 20, 50, 100];
-		const searchWord = filter ? (filter.name ? filter.name : null) : null;
 		return (
 			<Page>
 				<Header />
 				<Content>
-					<Button {...btnProps} />
+					<div className="pokemon-bar">
+						<LoaderProgress />
+					</div>
 					<div className="pokemon-content">
 						<div className="pokemon-sidebar">
-							<h2>Options</h2>
+							<h2>Per page</h2>
 							<div className="pokemon-limits">
 								{limits.map(limit =>
 									<Button
@@ -44,17 +40,27 @@ class PokemonsPage extends Component {
 									/>
 								)}
 							</div>
-							<h2>
+							<h2 className="title-filter">
 								Filter: <Button label="Clear" handleClick={clearFilter} />
+								{typesState !== 'done' &&
+									<div className="filter-loading">
+										<div className="chunk">
+											<div className={`chunk chunk--${typesState}`} />
+										</div>
+									</div>}
 							</h2>
-							{searchWord &&
+
+							{isFilteredByName &&
 								<p>
-									Search by name: &laquo;{searchWord}&raquo;
+									Searched by name: <span>&laquo;{filter.name}&raquo;</span>
 								</p>}
 							<TypesList pokemonStore={pokemonStore} />
 						</div>
 						<div className="pokemon-inner-content">
-							<SearchBox setFilter={setFilter} clearFilter={clearFilter} />
+							<div className="pokemon-inner-bar">
+								<h2>Search</h2>
+								<SearchBox setFilter={setFilter} />
+							</div>
 							<Pagination pagination={pokemonStore.pagination} />
 							<PokemonsTable pokemonStore={pokemonStore} />
 							<Pagination pagination={pokemonStore.pagination} />

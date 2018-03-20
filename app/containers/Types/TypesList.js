@@ -11,22 +11,18 @@ class TypesList extends Component {
 	}
 	render() {
 		const { pokemonStore } = this.props;
-		const { filter, setFilter } = pokemonStore;
+		const { filter } = pokemonStore;
 		const types = filter.types;
+
 		const handleClick = name => {
 			console.log(name);
-			console.log(types);
+			console.log(types.map(type => type));
 			const IS_TYPE_EXIST = types.includes(name);
 			if (IS_TYPE_EXIST) {
-				setFilter({ types: types.filter(type => type !== name) });
+				filter.setFilter({ types: types.filter(type => type !== name) });
 			} else {
-				setFilter({ types: [...types, name] });
+				filter.setFilter({ types: [...types, name] });
 			}
-			// const typesToSet = IS_TYPE_EXIST
-			// 	? types.filter(type => type !== name)
-			// 	: types.push(name);
-			// console.log(typesToSet);
-			// setFilter({ types: typesToSet });
 		};
 		return (
 			<div className={'types-list'}>

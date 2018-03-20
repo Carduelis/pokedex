@@ -1,6 +1,6 @@
 import { types, getParent } from 'mobx-state-tree';
 import pageCalculation from '../helpers/pageCalculation';
-
+import { NO_FILTERING_ERROR } from '../constants';
 export const Pagination = types
 	.model('Pagination', {
 		current: 1
@@ -42,12 +42,7 @@ export const Pagination = types
 				if (self.pokemonStore.filter.isDefault) {
 					self.pokemonStore.loadPokemons();
 				} else {
-					console.log(`
-						=======================================================
-						|  NO LOADING, CAUSE API DOES NOT PROVIDE FILTERING.  |
-						|  PRELOAD AND CACHE ALL POKEMONS VIA CHUNK-LOADING.  |
-						=======================================================
-					`);
+					console.log(NO_FILTERING_ERROR);
 				}
 			}
 		}

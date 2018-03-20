@@ -6,9 +6,15 @@ export const MainStore = types
 		pokemonStore: types.optional(PokemonStore, {
 			pokemons: {},
 			types: {},
+			typesTotal: 20,
 			filter: {
 				types: [],
 				name: ''
+			},
+			loading: {
+				chunkSize: 100,
+				offset: 10,
+				chunks: []
 			},
 			pokemonsMeta: {
 				limit: 10,
@@ -33,12 +39,12 @@ export const MainStore = types
 		afterCreate() {
 			self.pokemonStore.loadPokemons();
 			self.pokemonStore.loadTypes();
-			// const CHUNK_SIZE = 100;
-			// const START_OFFSET = 10;
+
+			// self.pokemonStore.loadPokemons({ chunk: {offset: 100, limit: 1 }});
+
 			// for (let i = 0; i < 8; i++) {
 			// 	const offset = (CHUNK_SIZE*i + START_OFFSET);
 			// 	const limit = CHUNK_SIZE;
-			// 	self.pokemonStore.loadPokemons({ offset, limit });
 			// }
 		}
 	}));

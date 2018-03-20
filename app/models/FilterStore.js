@@ -1,4 +1,4 @@
-import { types, getParent, flow } from 'mobx-state-tree';
+import { types, getParent } from 'mobx-state-tree';
 // import { getItem, setItem } from '../helpers/localStorage';
 // import { API_URL } from '../constants';
 
@@ -17,6 +17,9 @@ export const FilterStore = types
 		get pokemonsMeta() {
 			return self.pokemonStore.pokemonsMeta;
 		},
+		get isFilteredByName() {
+			return self.name !== '';
+		},
 		get isDefault() {
 			const { name, types } = self;
 			return types.length === 0 && (name === '' || typeof name !== 'string');
@@ -26,12 +29,11 @@ export const FilterStore = types
 			if (self.isDefault) {
 				return defaultOrder(self.pokemons.values());
 			}
-			const { name, types } = self.filter;
-			if (name) {
-				return filterByName(self.pokemons.values(), name);
+			if (self.name) {
+				return filterByName(self.pokemons.values(), self.name);
 			}
-			if (types) {
-				return filterByTypes(self.pokemons.values(), types);
+			if (self.types) {
+				return filterByTypes(self.pokemons.values(), self.types);
 			}
 		},
 		get total() {
@@ -48,18 +50,21 @@ export const FilterStore = types
 		}
 	}))
 	.actions(self => {
-		function setFilter(filter) {
-			console.log(JSON.stringify(self.filter));
-			self.filter = { ...self.filter, ...filter };
-			console.log(JSON.stringify(self.filter));
+		function setFilter({ types, name }) {
+			console.log(self.toJSON());
+			if (typeof types !== 'undefined') {
+				self.types = types;
+			}
+			if (typeof name !== 'undefined') {
+				self.name = name;
+			}
+			console.log(self.toJSON());
 			// need to clear default page
-			self.pagination.setPage(1);
+			self.pokemonStore.pagination.setPage(1);
 		}
 		function clearFilter() {
-			self.filter = {
-				types: [],
-				name: ''
-			};
+			self.types = [];
+			self.name = '';
 		}
 		return {
 			setFilter,
@@ -88,9 +93,9 @@ function filterByTypes(pokemons, types) {
 		pokemon.types.find(type => types.includes(type.name.toLowerCase()))
 	);
 }
-
-function sortPokemons(pokemons) {
-	return pokemons.sort(
-		(a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
-	);
-}
+//
+// function sortPokemons(pokemons) {
+// 	return pokemons.sort(
+// 		(a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
+// 	);
+// }
