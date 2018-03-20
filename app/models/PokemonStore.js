@@ -172,7 +172,7 @@ export const PokemonStore = types
 					if (!self.hardCache) {
 						const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
 						const json = yield self.mainStore.fetch(url);
-						updatePokemons(json.objects, startIndex);
+						updatePokemons(json.objects, json.meta.offset);
 						updateMeta(json.meta);
 					}
 				}
