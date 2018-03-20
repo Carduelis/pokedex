@@ -1,0 +1,25 @@
+.loader-progress {
+	display: flex;
+	padding: 0.15rem;
+	align-items: center;
+}
+.chunks {
+	display: flex;
+}
+.chunk {
+	@size: 1rem;
+	width: @size;
+	height: @size;
+	margin: 0.15rem;
+	&-fill {
+		height: 100%;
+		transition: transform 200ms;
+		background-color: @palette-Orange-200;
+		&--done {
+			background-color: @palette-Teal-200;
+		}
+		&--pending {
+			animation: ChunkPulse 2s linear infinite;
+		}
+	}
+}
