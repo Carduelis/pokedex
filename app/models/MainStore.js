@@ -11,7 +11,7 @@ export const MainStore = types
 				types: [],
 				name: ''
 			},
-			loading: {
+			loadingStore: {
 				chunkSize: 100,
 				offset: 10,
 				chunks: []
@@ -40,11 +40,15 @@ export const MainStore = types
 			self.pokemonStore.loadPokemons();
 			self.pokemonStore.loadTypes();
 
-			// self.pokemonStore.loadPokemons({ chunk: {offset: 100, limit: 1 }});
+			// TODO:
+			// recalculate maxsize (8) based on real data
+			const { loadingStore } = self.pokemonStore;
 
-			// for (let i = 0; i < 8; i++) {
-			// 	const offset = (CHUNK_SIZE*i + START_OFFSET);
-			// 	const limit = CHUNK_SIZE;
-			// }
+			for (let i = 0; i < 3; i++) {
+				loadingStore.chunks.push({
+					index: i,
+					offset: 10 + loadingStore.chunkSize * i
+				});
+			}
 		}
 	}));

@@ -1,9 +1,4 @@
-.loader-progress {
-	display: flex;
-	padding: 0.15rem;
-	align-items: center;
-}
-.chunks {
+.chunk-list {
 	display: flex;
 }
 .chunk {
@@ -20,6 +15,10 @@
 		}
 		&--pending {
 			animation: ChunkPulse 2s linear infinite;
+		}
+		&--error {
+			background-color: @palette-Red-500;
+			box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .8);
 		}
 	}
 }

@@ -6,9 +6,9 @@ import Content from '../components/Content';
 import Page from '../components/Page';
 import { SearchBox } from './SearchBox';
 import { Pagination } from './Pagination';
-import { PokemonsList, PokemonsTable } from './Pokemons';
+import { PokemonsTable } from './Pokemons';
 import { TypesList } from './Types';
-import { LoaderProgress } from './LoaderProgress';
+import { LoadingProgress } from './Loader';
 import { Button } from '../components/UI';
 @inject('store')
 @observer
@@ -25,7 +25,8 @@ class PokemonsPage extends Component {
 				<Header />
 				<Content>
 					<div className="pokemon-bar">
-						<LoaderProgress />
+						<span onClick={localStorage.clear()}>Clear cache</span>
+						<LoadingProgress pokemonStore={pokemonStore} />
 					</div>
 					<div className="pokemon-content">
 						<div className="pokemon-sidebar">
@@ -45,7 +46,7 @@ class PokemonsPage extends Component {
 								{typesState !== 'done' &&
 									<div className="filter-loading">
 										<div className="chunk">
-											<div className={`chunk chunk--${typesState}`} />
+											<div className={`chunk-fill chunk-fill--${typesState}`} />
 										</div>
 									</div>}
 							</h2>

@@ -1,7 +1,7 @@
 import { types, getParent, flow } from 'mobx-state-tree';
 import { setItem } from '../helpers/localStorage';
 import cached from './cached';
-import { API_URL, HARD_CACHE_IS_ON } from '../constants';
+import { getTypeURL, getPokemonURL } from '../constants';
 import {
 	pokemonPlainTypes,
 	pokemonsMeta,
@@ -19,7 +19,7 @@ export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
 		state,
-		loading: LoadingStore,
+		loadingStore: LoadingStore,
 		types: types.map(PokemonType),
 		typesIsFull: false,
 		typesState: state,
@@ -34,14 +34,18 @@ export const PokemonStore = types
 		get mainStore() {
 			return getParent(self);
 		},
+		get fetchedPokemons() {
+			return this.pokemons.values().length;
+		},
 		get typeUrl() {
-			return `${API_URL}type/?limit=${self.typesTotal}&offset=0`;
+			return getTypeURL({ limit: self.typesTotal, offset: 0 });
 		},
 		get url() {
-			return `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
+			return getPokemonURL({ limit: self.limit, offset: self.offset });
 		},
 		get limit() {
 			const { limit } = self.pokemonsMeta;
+			console.log(self.pokemonsMeta);
 			return self.userLimit ? self.userLimit : limit;
 		},
 		get total() {

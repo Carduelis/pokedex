@@ -1,6 +1,7 @@
 import { getItem } from '../helpers/localStorage';
 import breakableEach from '../helpers/each';
 
+// TODO: make localStorage touching async or even move to worker
 export default function(startIndex, endIndex) {
 	let queryIsCached = true;
 	const objects = [];

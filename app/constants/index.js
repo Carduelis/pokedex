@@ -14,3 +14,9 @@ export const NO_FILTERING_ERROR = `
 	|  PRELOAD AND CACHE ALL POKEMONS VIA CHUNK-LOADING.  |
 	=======================================================
 `;
+
+export const getPokemonURL = ({ limit, offset }) =>
+	`${API_URL}pokemon/?limit=${limit}&offset=${offset}`;
+
+export const getTypeURL = ({ limit, offset }) =>
+	`${API_URL}type/?limit=${limit}&offset=${offset}`;

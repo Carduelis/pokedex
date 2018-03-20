@@ -1,5 +1,4 @@
 import { types, getParent } from 'mobx-state-tree';
-import breakableEach from '../helpers/each';
 import { Chunk } from './Chunk';
 
 export const LoadingStore = types
@@ -27,14 +26,6 @@ export const LoadingStore = types
 		get state() {
 			return self.error ? 'error' : self.pending ? 'pending' : 'done';
 		}
-		// get meta() {
-		// 	const meta = self.pokemonStore.pokemonsMeta;
-		// 	// warning it is a hack
-		// 	// it will call every time when total_count is changed
-		// 	//
-		//
-		// 	return meta;
-		// }
 	}))
 	.actions(self => {
 		function afterCreate() {
