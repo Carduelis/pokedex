@@ -81,9 +81,7 @@ export const PokemonStore = types
 	.actions(self => {
 		function setFilter(filter) {
 			console.log(JSON.stringify(self.filter));
-			self.filter = !self.isDefaultFilter
-				? { ...self.filter, ...filter }
-				: { ...filter };
+			self.filter = { ...self.filter, ...filter };
 			console.log(JSON.stringify(self.filter));
 			// need to clear default page
 			self.pagination.setPage(1);
@@ -172,9 +170,7 @@ export const PokemonStore = types
 					updateMeta(cachedMeta);
 				} else {
 					if (!self.hardCache) {
-						const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${
-							self.offset
-						}`;
+						const url = `${API_URL}pokemon/?limit=${self.limit}&offset=${self.offset}`;
 						const json = yield self.mainStore.fetch(url);
 						updatePokemons(json.objects, startIndex);
 						updateMeta(json.meta);

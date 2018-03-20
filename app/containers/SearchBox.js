@@ -6,38 +6,40 @@ class SearchBox extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchWord: ''
+			value: ''
 		};
-		this.handleInput = this.handleInput.bind(this);
-		this.doFilter = this.doFilter.bind(this);
+		this.onInputChange = this.onInputChange.bind(this);
+		this.clearInput = this.clearInput.bind(this);
 	}
-	doFilter() {
-		const { setFilter, clearFilter } = this.props;
-		const { searchWord } = this.state;
-		if (searchWord.length > 0) {
-			setFilter({ name: searchWord });
-		} else {
-			clearFilter();
-		}
+	applyFilter(value) {
+		const { setFilter } = this.props;
+		setFilter({ name: value });
 	}
-	handleInput(event) {
-		const { setFilter, clearFilter } = this.props;
+	clearInput() {
+		this.setState({ value: '' });
+		this.applyFilter('');
+	}
+	onInputChange(event) {
 		const { value } = event.target;
-		this.setState({ searchWord: value });
-		if (value.length > 0) {
-			setFilter({ name: value });
-		} else {
-			clearFilter();
-		}
+		this.setState({ value: value });
+		this.applyFilter(value);
 	}
 	render() {
-		const { searchWord } = this.state;
+		const { value } = this.state;
 		return (
-			<div className='search-box'>
-				<div className='input-box'>
-					<input className='input' type='text' onChange={this.handleInput} value={searchWord} autoFocus placeholder='Pikachu' />
+			<div className="search-box">
+				<div className="input-box">
+					<input
+						className="input"
+						type="text"
+						onChange={this.onInputChange}
+						value={value}
+						autoFocus
+						placeholder="Pikachu"
+					/>
+					<Button label="&times;" handleClick={this.clearInput} />
 				</div>
-				<Button label='Search' handleClick={this.doFilter} />
+				<Button label="Search" handleClick={this.doFilter} />
 			</div>
 		);
 	}
@@ -45,8 +47,7 @@ class SearchBox extends Component {
 
 SearchBox.propTypes = {
 	setFilter: PropTypes.func,
-	clearFilter: PropTypes.func,
+	clearFilter: PropTypes.func
 };
-
 
 export { SearchBox };
