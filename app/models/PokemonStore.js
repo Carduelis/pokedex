@@ -9,8 +9,10 @@ import {
 } from './Types';
 import { Pokemon } from './Pokemon';
 import { PokemonType } from './PokemonType';
+import { FilterStore } from './FilterStore';
 import { Pagination } from './Pagination';
 
+console.log(FilterStore, Pagination);
 export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
@@ -19,8 +21,8 @@ export const PokemonStore = types
 		types: types.map(PokemonType),
 		typesIsFull: false,
 		typesTotal: 20,
+		filter: FilterStore,
 		userLimit: types.maybe(types.number),
-		filter: types.frozen,
 		pokemons: types.map(Pokemon),
 		pagination: Pagination,
 		pokemonsMeta: types.frozen
@@ -37,11 +39,7 @@ export const PokemonStore = types
 			return self.userLimit ? self.userLimit : limit;
 		},
 		get total() {
-			if (self.isDefaultFilter) {
-				return self.pokemonsMeta.total_count;
-			} else {
-				return self.getPokemonsByFilter().length;
-			}
+			return self.filter.total;
 		},
 		get page() {
 			return self.pagination.current;
@@ -49,54 +47,18 @@ export const PokemonStore = types
 		get offset() {
 			return (self.page - 1) * self.limit;
 		},
-		get isDefaultFilter() {
-			const { name, types } = self.filter;
-			return types.length === 0 && (name === '' || typeof name !== 'string');
-		},
 		get meta() {
 			const meta = [...pokemonsMeta];
 			meta.unshift(pokemonAvatarMeta);
 			return meta;
-		},
-		get sortedAvailablePokemons() {
-			return sortPokemons(self.pokemons.values());
-		},
-		getPokemonsByFilter() {
-			console.log(self.isDefaultFilter);
-			if (self.isDefaultFilter) {
-				return defaultOrder(self.pokemons.values());
-			}
-			const { name, types } = self.filter;
-			if (name) {
-				return filterByName(self.pokemons.values(), name);
-			}
-			if (types) {
-				return filterByTypes(self.pokemons.values(), types);
-			}
-		},
-		getPokemonsByFilterPerPage() {
-			return self.getPokemonsByFilter().splice(self.offset, self.limit);
 		}
 	}))
 	.actions(self => {
-		function setFilter(filter) {
-			console.log(JSON.stringify(self.filter));
-			self.filter = { ...self.filter, ...filter };
-			console.log(JSON.stringify(self.filter));
-			// need to clear default page
-			self.pagination.setPage(1);
-		}
 		function setUserLimit(limit) {
 			self.userLimit = limit;
 			// need to clear default page
 			self.pagination.setPage(1);
 			console.log(self.limit);
-		}
-		function clearFilter() {
-			self.filter = {
-				types: [],
-				name: ''
-			};
 		}
 		function updatePokemons(json, offset) {
 			// offset should be the same when fetching started
@@ -198,36 +160,12 @@ export const PokemonStore = types
 			updateMeta,
 			updatePokemonTypes,
 			updatePokemons,
-			setFilter,
 			setUserLimit,
-			clearFilter,
 			asyncChangeType,
 			loadTypes,
 			loadPokemons
 		};
 	});
-
-function defaultOrder(pokemons) {
-	return pokemons.reduce((acc, pokemon) => {
-		// console.log('-', pokemon.index, pokemon.pkdx_id, pokemon.name);
-		acc[pokemon.index] = pokemon;
-		return acc;
-	}, []);
-}
-
-function filterByName(pokemons, name) {
-	// TODO:
-	// implement fuzzy search
-	return pokemons.filter(pokemon =>
-		pokemon.name.toLowerCase().match(name.toLowerCase())
-	);
-}
-
-function filterByTypes(pokemons, types) {
-	return pokemons.filter(pokemon =>
-		pokemon.types.find(type => types.includes(type.name.toLowerCase()))
-	);
-}
 
 function sortPokemons(pokemons) {
 	return pokemons.sort(

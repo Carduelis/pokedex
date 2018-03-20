@@ -6,13 +6,12 @@ import { Message } from '../../components/UI';
 import Loader from '../../components/Loader';
 import LoadableImg from '../../components/LoadableImg';
 
-// const defaultPokemons = [{ id: 1, name: 'Pica' }, { id: 2, name: 'Bulb' }];
-
 @observer
 class PokemonsTable extends Component {
 	render() {
 		const { pokemonStore } = this.props;
-		const { getPokemonsByFilterPerPage, state, meta, limit } = pokemonStore;
+		const { state, meta, filter } = pokemonStore;
+		const { getPokemonsPerPage } = filter;
 		console.log(state);
 		const CellFork = (key, pokemon) =>
 			key === 'image'
@@ -38,14 +37,14 @@ class PokemonsTable extends Component {
 			);
 		};
 		const head = meta.map(item => ({ id: item.api, data: HeadCell(item) }));
-		const body = getPokemonsByFilterPerPage().map(pokemon => ({
+		const body = getPokemonsPerPage().map(pokemon => ({
 			id: pokemon.id,
 			data: meta.map((item, id) => ({
 				data: CellFork(item.api, pokemon),
 				id: meta[id].api
 			}))
 		}));
-
+		console.log(getPokemonsPerPage());
 		return (
 			<div className="pokemons-table" style={{ minHeight: `${10 * 3}rem` }}>
 				{state === 'done' && <Table data={{ body, head }} />}

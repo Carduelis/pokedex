@@ -39,7 +39,7 @@ export const Pagination = types
 				);
 			} else {
 				self.current = page;
-				if (self.pokemonStore.isDefaultFilter) {
+				if (self.pokemonStore.filter.isDefault) {
 					self.pokemonStore.loadPokemons();
 				} else {
 					console.log(`
