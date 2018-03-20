@@ -1,4 +1,4 @@
-import { types, getParent, flow } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { state, pokemonPlainTypes } from './Types';
 import { PokemonType } from './PokemonType';
 import { POKEMON_GITHUB_IMAGE_URL } from '../constants';
@@ -18,11 +18,11 @@ export const Pokemon = types
 		get image() {
 			return `${POKEMON_GITHUB_IMAGE_URL}${self.pkdx_id}.png`;
 		}
-	}))
-	.actions(self => {
-		function afterCreate() {
-		}
-		return {
-			afterCreate
-		};
-	});
+	}));
+// .actions(self => {
+// 	function afterCreate() {
+// 	}
+// 	return {
+// 		afterCreate
+// 	};
+// });
