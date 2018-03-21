@@ -6,9 +6,9 @@ import { Button, Popup } from '../components/UI';
 @observer
 class DisclaimerPopup extends Component {
 	render() {
-		const IS_SHOWN = false;
+		const { showDisclaimer, closeDisclaimer } = this.props.store;
 		return (
-			<Popup show={IS_SHOWN}>
+			<Popup opened={showDisclaimer} onClose={closeDisclaimer}>
 				<div>
 					<h2>Pokemons are still&nbsp;arriving :(</h2>
 					<p>

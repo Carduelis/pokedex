@@ -38,7 +38,6 @@
 		flex-shrink: 0;
 		position: relative;
 		flex-grow: 0;
-		.apple();
 		display: flex;
 		align-items: flex-end;
 		justify-content: center;
@@ -64,19 +63,6 @@
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: contain;
-		&--original {
-			position: relative;
-			z-index: 2;
-			// opacity: 0;
-		}
-		&--blurred {
-			z-index: 1;
-			position: absolute;
-			top: 0;
-			left: 0;
-			opacity: 0;
-			// filter: blur(5px);
-		}
 	}
 
 	.pokemon-image-status {
@@ -116,6 +102,46 @@
 		}
 		&::after {
 			bottom: -1rem;
+		}
+	}
+}
+
+.popup-pokemon {
+	.pokemon {
+		flex-direction: column;
+	}
+	.pokemon-image-wrapper {
+		flex-direction: column;
+		margin-top: -3rem;
+		img {
+			width: 15rem;
+			.pixelated();
+		}
+	}
+	.pokemon-stats {
+		margin-top: 1rem;
+		justify-content: space-between;
+		.stat {
+			flex-grow: 1;
+		}
+	}
+	.pokemon-types {
+		display: flex;
+		margin: 1rem -0.25rem;
+		.type {
+			margin: 0.2rem;
+			flex-grow: 0;
+			justify-content: flex-start;
+			flex-basis: 8em;
+			cursor: default;
+			&:hover {
+				box-shadow: none;
+				transform: none;
+				.type-label {
+					background-color: rgba(227, 242, 253, 0.9);
+					color: #000;
+				}
+			}
 		}
 	}
 }

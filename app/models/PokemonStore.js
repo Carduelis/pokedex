@@ -18,6 +18,7 @@ export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
 		state,
+		pokemonToShow: types.maybe(types.reference(Pokemon)),
 		loadingStore: LoadingStore,
 		types: types.map(PokemonType),
 		typesIsFull: false,
@@ -63,6 +64,12 @@ export const PokemonStore = types
 		}
 	}))
 	.actions(self => {
+		function clearPokemon() {
+			self.pokemonToShow = null;
+		}
+		function showPokemon(pkdx_id) {
+			self.pokemonToShow = pkdx_id;
+		}
 		function setUserLimit(limit) {
 			self.userLimit = limit;
 			// need to clear default page
@@ -85,19 +92,26 @@ export const PokemonStore = types
 						types: pokemonFullJson.types.map(type => type.resource_uri)
 					}
 				);
-				console.log(
-					apiIndex,
-					pokemonShrinkedJson.pkdx_id,
-					pokemonShrinkedJson.name
-				);
-				setItem(`pokemon${apiIndex}`, pokemonShrinkedJson);
+				// console.log(
+				// 	apiIndex,
+				// 	pokemonShrinkedJson.pkdx_id,
+				// 	pokemonShrinkedJson.name
+				// );
+				// only for localstorage
+				delete pokemonFullJson.moves;
+				delete pokemonFullJson.description;
+				setItem(`pokemon${apiIndex}`, pokemonFullJson);
 				self.pokemons.put(pokemonShrinkedJson);
 			});
 		}
 		function updatePokemonTypes(pokemon) {
 			if (!self.typesIsFull) {
 				// api of types has not been fetched completely
-				pokemon.types.forEach(type => self.types.put(type));
+				pokemon.types.forEach(type => {
+					if (type !== null) {
+						self.types.put(type);
+					}
+				});
 			}
 		}
 		function updateMeta(json) {
@@ -157,6 +171,8 @@ export const PokemonStore = types
 			updatePokemons,
 			setUserLimit,
 			loadTypes,
+			clearPokemon,
+			showPokemon,
 			loadPokemons
 		};
 	});

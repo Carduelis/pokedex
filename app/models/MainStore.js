@@ -44,7 +44,7 @@ export const MainStore = types
 			// recalculate maxsize (8) based on real data
 			const { loadingStore } = self.pokemonStore;
 
-			for (let i = 0; i < 3; i++) {
+			for (let i = 0; i < 8; i++) {
 				loadingStore.chunks.push({
 					index: i,
 					offset: 10 + loadingStore.chunkSize * i

@@ -7,13 +7,17 @@ class Table extends Component {
 		const { data } = this.props;
 		const IS_SIMPLE_TABLE = Array.isArray(data);
 		if (IS_SIMPLE_TABLE) {
-			return (<table className='table'><RowGroup data={data}/></table>);
+			return (
+				<table className="table">
+					<RowGroup data={data} />
+				</table>
+			);
 		}
 		return (
-			<table className='table'>
-				{data.head && <RowGroup data={data.head} groupType='head' />}
-				{data.body && <RowGroup data={data.body}/>}
-				{data.foot && <RowGroup data={data.foot} groupType='foot' />}
+			<table className="table">
+				{data.head && <RowGroup data={data.head} groupType="head" />}
+				{data.body && <RowGroup data={data.body} />}
+				{data.foot && <RowGroup data={data.foot} groupType="foot" />}
 			</table>
 		);
 	}

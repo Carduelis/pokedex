@@ -10,9 +10,9 @@ import LoadableImg from '../../components/LoadableImg';
 class PokemonsTable extends Component {
 	render() {
 		const { pokemonStore } = this.props;
-		const { state, meta, filter } = pokemonStore;
+		const { state, meta, filter, showPokemon } = pokemonStore;
 		const { getPokemonsPerPage } = filter;
-		console.log(state);
+
 		const CellFork = (key, pokemon) =>
 			key === 'image'
 				? <LoadableImg url={pokemon[key]} />
@@ -39,6 +39,10 @@ class PokemonsTable extends Component {
 		const head = meta.map(item => ({ id: item.api, data: HeadCell(item) }));
 		const body = getPokemonsPerPage().map(pokemon => ({
 			id: pokemon.id,
+			onClick: () => {
+				console.log(pokemon.id);
+				showPokemon(pokemon.id);
+			},
 			data: meta.map((item, id) => ({
 				data: CellFork(item.api, pokemon),
 				id: meta[id].api

@@ -5,6 +5,8 @@ import { types, getParent } from 'mobx-state-tree';
 export const FilterStore = types
 	.model('FilterStore', {
 		name: types.string,
+		userHasSeenDisclaimer: false,
+		showDisclaimer: false,
 		types: types.array(types.string)
 	})
 	.views(self => ({
@@ -50,7 +52,18 @@ export const FilterStore = types
 		}
 	}))
 	.actions(self => {
+		function closeDisclaimer() {
+			self.showDisclaimer = false;
+		}
 		function setFilter({ types, name }) {
+			if (
+				self.userHasSeenDisclaimer === false &&
+				self.pokemonStore.loadingStore.state !== 'done'
+			) {
+				self.userHasSeenDisclaimer = true;
+				self.showDisclaimer = true;
+			}
+
 			console.log(self.toJSON());
 			if (typeof types !== 'undefined') {
 				self.types = types;
@@ -68,6 +81,7 @@ export const FilterStore = types
 		}
 		return {
 			setFilter,
+			closeDisclaimer,
 			clearFilter
 		};
 	});

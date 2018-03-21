@@ -59,10 +59,9 @@ class WelcomePage extends Component {
 					<h2>What should I draw your attention to?</h2>
 					<div className="text-block-content">
 						<h3>Design</h3>
-						<p>
-							Awesome animations and the way of visualisation of image loading.
-						</p>
+						<p>Awesome animations and the ways of loading visualisations.</p>
 						<p>Custom self-developed css-gradients.</p>
+						<p>Pokemon popup's</p>
 						<h3>Code</h3>
 						<p>Using new ES7 features, structuring and reusable components.</p>
 						<p>Background loaders.</p>

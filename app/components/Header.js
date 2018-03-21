@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import { toggleSidebar } from '../store/actions/interface';
+import PropTypes from 'prop-types';
+import MdArrowBack from 'react-icons/lib/md/arrow-back';
 
 class Header extends Component {
-	constructor(props) {
-		super(props);
-		this.signIn = this.signIn.bind(this);
-	}
-	signIn() {
-		console.log('signIn');
-		this.props.authModalToggle({
-			show: true
-		});
-	}
 	render() {
 		return (
 			<div className="header fixed">
-				<div className="header-title">Header</div>
+				<a className="header-back" href="#/">
+					<MdArrowBack />
+				</a>
+				<div className="header-title">
+					{this.props.title}
+				</div>
 			</div>
 		);
 	}
 }
-//
-// function mapStateToProps(state) {
-// 	console.warn(state);
-// 	return {
-// 		sidebarVisibility: state.ui.sidebarVisibility,
-// 		auth: state.auth
-// 	};
-// }
+
+Header.propTypes = {
+	title: PropTypes.string
+};
+
 export default Header;

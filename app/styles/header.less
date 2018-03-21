@@ -3,12 +3,25 @@
 	left: 0;
 	right: 0;
 	height: @headerHeight;
-	background-color: rgba(255,255,255,.2);
+	background-color: rgba(255, 255, 255, .2);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	&.fixed {
 		position: fixed;
+	}
+	.header-back {
+		position: absolute;
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2rem;
+		width: 2rem;
+		top: 50%;
+		margin-top: -1rem;
+		left: 2rem;
+		font-size: 1.6em;
 	}
 }
 

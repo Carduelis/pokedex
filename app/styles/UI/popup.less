@@ -9,13 +9,44 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: fadeout(@palette-Blue-800, 85%);
+	transition: all 200ms;
+	will-change: transform;
+	transform: scaleY(.5) translateY(-100%);
+	transform-origin: top center;
+	&-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		content: '';
+		z-index: 1;
+		display: block;
+		background-color: fadeout(@palette-Blue-800, 85%);
+		transition: inherit;
+		transition-delay: 300ms;
+		opacity: 0;
+	}
+	&--opened {
+		transform: scaleY(1) translateX(0);
+		transition: all 200ms;
+		.popup-background {
+			opacity: 1;
+		}
+	}
 	&-content {
 		.apple();
 		border-radius: @size;
+		z-index: 2;
 		box-shadow: 0 2rem 14rem -4rem;
 		width: 320px;
 		height: 420px;
+		@media (min-height: 700px) {
+			height: auto;
+		}
+		@media (min-width: 1000px) {
+			width: 420px;
+		}
 		max-width: 90vw;
 		max-height: 90vh;
 		display: flex;
@@ -46,5 +77,8 @@
 	}
 	&-inner-content {
 		padding: @size;
+
+		overflow-y: auto;
+		height: 100%;
 	}
 }

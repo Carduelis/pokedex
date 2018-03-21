@@ -4,24 +4,25 @@ import { Button } from '../UI';
 
 class Popup extends Component {
 	render() {
-		const { children } = this.props;
-		const closePopup = () => {
-			alert('Close popup');
-		};
+		const { children, opened } = this.props;
+		const className = opened ? 'popup popup--opened' : 'popup';
 		return (
-			<div className="popup">
+			<div className={className}>
 				<div className="popup-content">
-					<Button label="&times;" handleClick={closePopup} />
+					<Button label="&times;" handleClick={this.props.onClose} />
 					<div className="popup-inner-content">
 						{children}
 					</div>
 				</div>
+				<div className="popup-background" onClick={this.props.onClose} />
 			</div>
 		);
 	}
 }
 
 Popup.propTypes = {
+	opened: PropTypes.bool,
+	onClose: PropTypes.func.isRequired,
 	children: PropTypes.element
 };
 

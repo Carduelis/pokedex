@@ -6,7 +6,7 @@ import Content from '../components/Content';
 import Page from '../components/Page';
 import { SearchBox } from './SearchBox';
 import { Pagination } from './Pagination';
-import { PokemonsTable } from './Pokemons';
+import { PokemonsTable, PokemonPopup } from './Pokemons';
 import { TypesList } from './Types';
 import { LoadingProgress } from './Loader';
 import { DisclaimerPopup } from './DisclaimerPopup';
@@ -24,41 +24,45 @@ class PokemonsPage extends Component {
 		const limits = [10, 20, 50, 100];
 		return (
 			<Page>
-				<Header />
+				<Header title="Pokedex by Pavel" />
 				<Content>
 					<div className="pokemon-bar">
-						<span onClick={() => localStorage.clear()}>Clear cache</span>
+						<Button
+							label="Clear cache"
+							handleClick={() => {
+								localStorage.clear();
+								alert('LocalStorage has been cleared');
+							}}
+						/>
 						<LoadingProgress pokemonStore={pokemonStore} />
 					</div>
 					<div className="pokemon-content">
 						<div className="pokemon-sidebar">
 							<h2>Per page</h2>
 							<div className="pokemon-limits">
-								{limits.map(limit => (
+								{limits.map(limit =>
 									<Button
 										key={limit}
 										label={limit}
 										active={pokemonStore.limit === limit}
 										handleClick={() => setUserLimit(limit)}
 									/>
-								))}
+								)}
 							</div>
 							<h2 className="title-filter">
 								Filter: <Button label="Clear" handleClick={clearFilter} />
-								{typesState !== 'done' && (
+								{typesState !== 'done' &&
 									<div className="filter-loading">
 										<div className="chunk">
 											<div className={`chunk-fill chunk-fill--${typesState}`} />
 										</div>
-									</div>
-								)}
+									</div>}
 							</h2>
 
-							{isFilteredByName && (
+							{isFilteredByName &&
 								<p>
 									Searched by name: <span>&laquo;{filter.name}&raquo;</span>
-								</p>
-							)}
+								</p>}
 							<TypesList pokemonStore={pokemonStore} />
 						</div>
 						<div className="pokemon-inner-content">
@@ -72,7 +76,8 @@ class PokemonsPage extends Component {
 						</div>
 					</div>
 				</Content>
-				<DisclaimerPopup />
+				<DisclaimerPopup store={filter} />
+				<PokemonPopup pokemonStore={pokemonStore} />
 			</Page>
 		);
 	}

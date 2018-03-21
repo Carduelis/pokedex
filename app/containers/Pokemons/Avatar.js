@@ -23,20 +23,20 @@ class Avatar extends Component {
 				className={`pokemon-image-wrapper pokemon-image-wrapper--${pokemon.imageState}`}
 			>
 				<div className="pokemon-image-holder">
-					<div
+					{/* <div
 						className="pokemon-image pokemon-image--original"
 						style={{ backgroundImage: `url(${pokemon.image})` }}
-					/>
-					<div
+						/>
+						<div
 						className="pokemon-image pokemon-image--blurred"
 						style={{ backgroundImage: `url(${pokemon.image})` }}
-					>
-						<img
-							src={pokemon.image}
-							onLoad={this.handleImageLoaded.bind(this)}
-							onError={this.handleImageErrored.bind(this)}
-						/>
-					</div>
+					> */}
+					<img
+						src={pokemon.image}
+						onLoad={this.handleImageLoaded.bind(this)}
+						onError={this.handleImageErrored.bind(this)}
+					/>
+					{/* </div> */}
 				</div>
 				{!pokemon.image &&
 					<span className="pokemon-image-status">

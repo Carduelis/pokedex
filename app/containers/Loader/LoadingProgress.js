@@ -14,14 +14,19 @@ class LoadingProgress extends Component {
 
 		// TODO: investigate bug when total is less than fetchedPokemons
 		const progress =
-			fetchedPokemons < total ? `${fetchedPokemons}/${total}` : fetchedPokemons;
+			fetchedPokemons < total
+				? `${fetchedPokemons} / ${total}`
+				: fetchedPokemons;
 		return (
 			<div className="loader-progress">
 				<div className="loader-progress-title">
 					{state === 'done' && <span>All pokemons loaded.</span>}
 					{error > 0 && <span>Click on errored to initiate reloading.</span>}
 					{Boolean(pending) &&
-						error === 0 && <span>Loading {progress} pokemons:</span>}
+						error === 0 &&
+						<span>
+							Loaded {progress} pokemons:
+						</span>}
 				</div>
 				<ChunkList loadingStore={loadingStore} handleClick={handleClick} />
 			</div>
