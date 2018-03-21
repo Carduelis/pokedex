@@ -31,8 +31,11 @@ export const LoadingStore = types
 		function afterCreate() {
 			console.log(self);
 		}
-
+		function restart({ offset }) {
+			self.chunks.find(chunk => chunk.offset === offset).loadChunkPokemons();
+		}
 		return {
+			restart,
 			afterCreate
 		};
 	});
