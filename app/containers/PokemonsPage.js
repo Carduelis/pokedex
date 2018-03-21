@@ -15,6 +15,9 @@ import { Button } from '../components/UI';
 @inject('store')
 @observer
 class PokemonsPage extends Component {
+	componentWillMount() {
+		window.scrollTo(0, 0);
+	}
 	render() {
 		const { store } = this.props;
 		const { pokemonStore } = store;

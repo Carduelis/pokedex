@@ -24,9 +24,9 @@ input {
 @favoriteColor: #009ee0;
 // @favoriteColor: maroon;
 #root {
-	height: 100vh;
-	overflow-x: hidden;
-	overflow-y: auto;
+	// height: 100vh;
+	// overflow-x: hidden;
+	// overflow-y: auto;
 	background: radial-gradient(
 		farthest-corner at 0 0,
 		spin(@favoriteColor, -8%),
@@ -152,26 +152,21 @@ input {
 
 @import 'mixins.less';
 @import 'palette.less';
-@import 'welcome.less';
 @import 'animations.less';
 
 @import 'color.less';
 @import 'gradients.less';
-@import 'label.less';
-@import 'button.less';
-@import 'input.less';
-@import 'loader.less';
 @import 'loadable-image.less';
+@import './UI/label.less';
+@import './UI/button.less';
+@import './UI/input.less';
+@import './UI/loader.less';
+@import './UI/popup.less';
+@import './UI/message.less';
+@import './UI/header.less';
 
 // parts of the app
 
-@import 'header.less';
-@import 'logo.less';
-
-@import 'projects.less';
-
-@import './UI/popup.less';
-@import './UI/message.less';
 @import './components/welcome.less';
 @import './components/chunk-loader.less';
 @import './components/pokemons-page-layout.less';

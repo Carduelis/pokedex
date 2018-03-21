@@ -24,7 +24,7 @@ class DisclaimerPopup extends Component {
 						bordered
 						size="lg"
 						label="Ok. Got it."
-						handleClick={() => alert('close')}
+						handleClick={closeDisclaimer}
 					/>
 				</div>
 			</Popup>

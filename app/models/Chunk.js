@@ -46,7 +46,9 @@ export const Chunk = types
 			}
 		});
 		function afterCreate() {
-			self.loadChunkPokemons();
+			setTimeout(() => {
+				self.loadChunkPokemons();
+			}, 2000);
 		}
 		return {
 			afterCreate,
