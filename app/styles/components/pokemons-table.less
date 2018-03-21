@@ -5,7 +5,10 @@
 	min-height: 10rem;
 	position: relative;
 	@media (max-width: @bp) {
-		font-size: .9em;
+		font-size: 0.9em;
+	}
+	.message {
+		margin: 1rem 0;
 	}
 	.cell {
 		padding: 0.25rem;
@@ -15,14 +18,18 @@
 		@media (max-width: 420px) {
 			min-width: 2em;
 		}
-		@media (min-width: @bp) {
+		&:first-of-type {
+			padding-left: 1rem;
+		}
+		&:last-of-type {
+			padding-right: 1.5rem;
+		}
+		@media (max-width: @bp) {
 			&:first-of-type {
 				padding-left: 1rem;
 			}
 			&:last-of-type {
 				padding-right: 1rem;
-			}
-			&-name ~ th.cell {
 			}
 		}
 		&-pkdx_id {
@@ -72,8 +79,8 @@
 					display: block;
 				}
 				@media (max-width: 420px) {
-					font-size: .7em;
-					opacity: .6;
+					font-size: 0.7em;
+					opacity: 0.6;
 					font-weight: normal;
 				}
 			}
@@ -81,7 +88,7 @@
 				margin-left: 0.25rem;
 				margin-top: 0.25rem;
 				order: 2;
-				opacity: .5;
+				opacity: 0.5;
 				@media (max-width: 420px) {
 					font-size: 1.4em;
 				}

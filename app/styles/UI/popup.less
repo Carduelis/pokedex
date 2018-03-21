@@ -1,17 +1,50 @@
 .popup {
+	@size: 2rem;
 	position: fixed;
 	left: 0;
 	bottom: 0;
 	right: 0;
 	top: 0;
+	z-index: 999;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background-color: fadeout(@palette-Blue-800, 85%);
 	&-content {
 		.apple();
+		border-radius: @size;
+		box-shadow: 0 2rem 14rem -4rem;
 		width: 320px;
 		height: 420px;
 		max-width: 90vw;
 		max-height: 90vh;
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: stretch;
+		> .btn {
+			position: absolute;
+			right: 0;
+			z-index: 10;
+			border-radius: 0 @size 0 @size;
+			font-size: 2em;
+			height: @size*2;
+			width: @size*2;
+			opacity: 0.4;
+			@shadowColor: desaturate(darken(@palette-Blue-200, 10%), 30%);
+			box-shadow: -0.5rem 0.5rem 3rem -1rem fadeout(@shadowColor, 100%);
+			background-image: linear-gradient(
+				45deg,
+				rgba(255, 255, 255, 0),
+				rgba(255, 255, 255, 0.3)
+			);
+			&:hover {
+				box-shadow: -0.5rem 0.5rem 3rem -1rem @shadowColor;
+				opacity: 1;
+			}
+		}
+	}
+	&-inner-content {
+		padding: @size;
 	}
 }

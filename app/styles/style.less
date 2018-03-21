@@ -94,9 +94,7 @@ input {
 .pac-icon {
 	margin-top: 5px;
 }
-#root {
-	perspective: 500px;
-}
+
 .accelerated {
 	transition: 300ms all;
 	will-change: transform;
@@ -124,12 +122,10 @@ input {
 }
 
 .content {
-	// box-shadow: 0 0 5px rgba(0, 0, 0, 0.2),
-	// 	inset 0 0 2rem -1rem rgba(255, 255, 255, 0.2);
 	border-radius: 0.25rem;
 	margin: 2rem auto;
-	// width: 90%;
 	max-width: 1600px;
+	flex-basis: 100%;
 	@media (max-width: 768px) {
 		width: 100%;
 	}

@@ -2,10 +2,19 @@
 	display: flex;
 	flex-wrap: wrap;
 	.type {
-		margin: .25rem;
+		margin: 0.25rem;
 	}
 }
 .type {
+	.active() {
+		transform: scale(1.1);
+		z-index: 2;
+		box-shadow: 0 0 2rem -0.5rem rgba(0, 0, 0, 0.5); //, 0 0 0 1px rgba(0,0,0,.1);
+		.type-label {
+			background-color: transparent;
+			color: inherit;
+		}
+	}
 	@size: 0.25rem;
 	flex: 1;
 	flex-basis: 21*@size;
@@ -16,7 +25,7 @@
 	border-radius: @size*2;
 	width: 21*@size;
 	height: 9*@size;
-	font-size: .7em;
+	font-size: 0.7em;
 	text-transform: uppercase;
 	background-color: @palette-Blue-100;
 	overflow: hidden;
@@ -34,18 +43,16 @@
 		align-items: center;
 		justify-content: center;
 	}
-	&:hover,
 	&--active {
-		transform: scale(1.1);
-		z-index: 2;
-		box-shadow: 0 0 2rem -0.5rem rgba(0, 0, 0, .5); //, 0 0 0 1px rgba(0,0,0,.1);
-		.type-label {
-			background-color: transparent;
-			color: inherit;
-		}
+		.active();
 	}
-	&--active:hover {
-		transform: scale(1);
+	@media (pointer: fine) {
+		&:hover {
+			.active();
+		}
+		&--active:hover {
+			transform: scale(1);
+		}
 	}
 	&--poison {
 		color: #fff;

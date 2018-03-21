@@ -11,16 +11,17 @@ class LoadingProgress extends Component {
 		const handleClick = chunk => {
 			restart(chunk);
 		};
+
+		// TODO: investigate bug when total is less than fetchedPokemons
+		const progress =
+			fetchedPokemons < total ? `${fetchedPokemons}/${total}` : fetchedPokemons;
 		return (
 			<div className="loader-progress">
 				<div className="loader-progress-title">
 					{state === 'done' && <span>All pokemons loaded.</span>}
-					{Boolean(error) &&
-						<span>Click on errored to initiate reloading</span>}
+					{error > 0 && <span>Click on errored to initiate reloading.</span>}
 					{Boolean(pending) &&
-						<span>
-							Loading {fetchedPokemons}/{total} pokemons:
-						</span>}
+						error === 0 && <span>Loading {progress} pokemons:</span>}
 				</div>
 				<ChunkList loadingStore={loadingStore} handleClick={handleClick} />
 			</div>

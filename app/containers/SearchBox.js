@@ -11,6 +11,11 @@ class SearchBox extends Component {
 		this.onInputChange = this.onInputChange.bind(this);
 		this.clearInput = this.clearInput.bind(this);
 	}
+	onInputChange(event) {
+		const { value } = event.target;
+		this.setState({ value: value });
+		this.applyFilter(value);
+	}
 	applyFilter(value) {
 		const { setFilter } = this.props;
 		console.log(`apply to "${value}". String length is ${value.length}`);
@@ -19,11 +24,6 @@ class SearchBox extends Component {
 	clearInput() {
 		this.setState({ value: '' });
 		this.applyFilter('');
-	}
-	onInputChange(event) {
-		const { value } = event.target;
-		this.setState({ value: value });
-		this.applyFilter(value);
 	}
 	render() {
 		const { value } = this.state;
@@ -35,8 +35,7 @@ class SearchBox extends Component {
 						type="text"
 						onChange={this.onInputChange}
 						value={value}
-						autoFocus
-						placeholder="Pikachu"
+						placeholder="Example: Pikachu"
 					/>
 					<Button label="&times;" handleClick={this.clearInput} />
 				</div>

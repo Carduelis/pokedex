@@ -18,49 +18,57 @@ const pokemonsMeta = [
 		title: 'ID',
 		icon: null,
 		type: types.identifier(types.number)
-	}, {
+	},
+	{
 		api: 'name',
 		short_title: 'Name',
 		title: 'name',
 		icon: null,
 		type: types.string
-	}, {
+	},
+	{
 		api: 'attack',
 		short_title: 'Atk',
 		title: 'attack',
 		icon: MdFitnessCenter,
 		type: types.number
-	}, {
+	},
+	{
 		api: 'defense',
 		short_title: 'Def',
 		title: 'defense',
 		icon: FaShield,
 		type: types.number
-	}, {
+	},
+	{
 		api: 'exp',
 		short_title: 'Exp',
 		title: 'experience',
 		icon: MdOpacity,
 		type: types.number
-	}, {
+	},
+	{
 		api: 'hp',
 		short_title: 'HP',
-		title: 'health points',
+		title: 'HP',
 		icon: TiHeartFullOutline,
 		type: types.number
-	}, {
+	},
+	{
 		api: 'speed',
 		short_title: 'speed',
 		title: 'speed',
 		icon: GoRocket,
 		type: types.number
-	}, {
+	},
+	{
 		api: 'height',
 		short_title: 'height',
 		title: 'height',
 		icon: MdVerticalAlignTop,
 		type: types.string
-	}, {
+	},
+	{
 		api: 'weight',
 		short_title: 'weight',
 		title: 'weight',
@@ -70,10 +78,10 @@ const pokemonsMeta = [
 ];
 
 const pokemonAvatarMeta = {
-		api: 'image',
-		short_title: 'Avatar',
-		title: 'avatar'
-	};
+	api: 'image',
+	short_title: 'Avatar',
+	title: 'avatar'
+};
 
 const pokemonPlainTypes = pokemonsMeta.reduce((acc, item) => {
 	acc[item.api] = item.type;
@@ -84,6 +92,5 @@ const pokemonPlainTypes = pokemonsMeta.reduce((acc, item) => {
 // 	const new
 // 	return
 // })
-
 
 export { state, pokemonPlainTypes, pokemonsMeta, pokemonAvatarMeta };

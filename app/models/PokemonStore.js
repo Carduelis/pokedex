@@ -14,7 +14,6 @@ import { FilterStore } from './FilterStore';
 import { LoadingStore } from './LoadingStore';
 import { Pagination } from './Pagination';
 
-console.log(FilterStore, Pagination);
 export const PokemonStore = types
 	.model('PokemonStore', {
 		isLoading: true,
@@ -75,7 +74,7 @@ export const PokemonStore = types
 			json.forEach((pokemonFullJson, i) => {
 				const apiIndex = i + offset;
 				self.updatePokemonTypes(pokemonFullJson);
-				setItem(`pokemon${apiIndex}`, pokemonFullJson);
+
 				const pokemonShrinkedJson = Object.keys(pokemonPlainTypes).reduce(
 					(acc, key) => {
 						acc[key] = pokemonFullJson[key];
@@ -91,6 +90,7 @@ export const PokemonStore = types
 					pokemonShrinkedJson.pkdx_id,
 					pokemonShrinkedJson.name
 				);
+				setItem(`pokemon${apiIndex}`, pokemonShrinkedJson);
 				self.pokemons.put(pokemonShrinkedJson);
 			});
 		}
@@ -120,6 +120,9 @@ export const PokemonStore = types
 			const endIndex = self.offset + self.limit;
 			try {
 				const cachedJson = cached(startIndex, endIndex);
+				if (cachedJson === false) {
+					console.error(startIndex, endIndex);
+				}
 				if (cachedJson) {
 					update(cachedJson, startIndex);
 				} else {

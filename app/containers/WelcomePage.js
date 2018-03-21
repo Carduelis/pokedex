@@ -40,25 +40,43 @@ class WelcomePage extends Component {
 							And, of course, for me there is no problem swaping into "eslint
 							standard config".
 						</p>
+
+						<div className="text-block-button">
+							<Button
+								label="Proceed to demo"
+								type="success"
+								size="lg"
+								handleClick={() => (window.location.hash = '#/pokemons')}
+							>
+								<span className="arrow">
+									<MdArrowForward />
+								</span>
+							</Button>
+						</div>
 					</div>
 				</div>
 				<div className="text-block text-block-attention">
 					<h2>What should I draw your attention to?</h2>
 					<div className="text-block-content">
 						<h3>Design</h3>
-						<p>Awesome animations and way of visualisation of image loading</p>
-						<p>Custom self-developed css-gradients</p>
+						<p>
+							Awesome animations and the way of visualisation of image loading.
+						</p>
+						<p>Custom self-developed css-gradients.</p>
 						<h3>Code</h3>
-						<p>Caching and more</p>
-						<p>Caching and more</p>
-						<p>Caching and more</p>
+						<p>Using new ES7 features, structuring and reusable components.</p>
+						<p>Background loaders.</p>
+						<p>Caching and more...</p>
+						<div className="text-block-button">
+							<Button
+								size="lg"
+								active
+								label="Show me the awesomeness!"
+								handleClick={() => (window.location.hash = '#/pokemons')}
+							/>
+						</div>
 					</div>
 				</div>
-				<Button handleClick={() => (window.location.hash = '#/pokemons')}>
-					<span className="arrow">
-						<MdArrowForward />
-					</span>
-				</Button>
 			</div>
 		);
 	}
