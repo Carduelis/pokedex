@@ -34,7 +34,7 @@ class WelcomePage extends Component {
 						</p>
 						<h3>Why not "eslint standard config"?</h3>
 						<p>
-							I am used to write code in a familiar environment so I choosed
+							I am used to write code in a familiar environment so I chose
 							custom eslint-config that I maintain by my own.
 							<br />
 							And, of course, for me there is no problem swaping into "eslint
