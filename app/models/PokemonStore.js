@@ -35,6 +35,9 @@ export const PokemonStore = types
 			return getParent(self);
 		},
 		get fetchedPokemons() {
+			// change comparing to new feachures of mobx
+			// https://github.com/mobxjs/mobx-state-tree/commit/0d9134ff57867ad2055210458edf6abce76e9bd1
+			// BREAKING CHANGES
 			return this.pokemons.values().length;
 		},
 		get typeUrl() {
